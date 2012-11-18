@@ -3,7 +3,7 @@ import pygame
 
 class World():
 	size = width, height = 1600, 900
-
+	gravity = -1.2
 
 	def __init__(self):
 		self.screen = pygame.display.set_mode(self.size)
@@ -30,7 +30,6 @@ class World():
 		if keystate:
 			for player in self.players:
 				player.Update(keystate)
-
 
 
 	def addPlayer(self, player):
