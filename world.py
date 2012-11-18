@@ -3,8 +3,7 @@ import pygame
 
 class World():
 	size = width, height = 1600, 900
-	gravity = -1.2
-
+	gravity = .8
 	def __init__(self):
 		self.screen = pygame.display.set_mode(self.size)
 		self.objects = pygame.sprite.Group() #hold random objects/sprites
@@ -19,6 +18,7 @@ class World():
 	#do all the drawing
 	def Draw(self):
 		self.screen.fill(pygame.Color(255,255,255))
+		self.level.Draw()
 		self.players.draw(self.screen)
 
 	def getEvents(self):
@@ -34,6 +34,9 @@ class World():
 
 	def addPlayer(self, player):
 		self.players.add(player)
+
+	def setLevel(self, level):
+		self.level = level
 
 
 	def addObject(self, object):
