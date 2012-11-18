@@ -22,7 +22,7 @@ class Level():
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			plat = Platform([x, y], words[2], words[3], words[4])
+			plat = Platform([x, y], words[2], words[3], words[4], words[5])
 			self.platforms.add(plat)
 
 

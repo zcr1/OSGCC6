@@ -101,6 +101,9 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.horizVel = self.horizVel * self.friction	
 
+		if(abs(self.horizVel) < 1):
+			self.horizVel = 0
+
 		newPos = [self.worldPos[0] + deltaHoriz, self.worldPos[1]]
 
 		if not self.grounded:
@@ -177,7 +180,13 @@ class Player(pygame.sprite.Sprite):
 
 	def updateSpriteSheet(self):
 		n = (int)(self.state)
-		if (self.stateChanged==1):
+		if(self.grounded == True and self.horizVel == 0):
+				self.state = self.enumState.STAND
+ 		if (self.stateChanged==1):
+			if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
+				self.state = self.enumState.JUMPLEFT
+			if(self.direction[0] > 0 and self.state == self.enumState.JUMPLEFT):
+				self.state = self.enumState.JUMPRIGHT
 			self.strips[n].iter()
 			self.image = self.strips[n].next()
 			self.stateChanged = 0
