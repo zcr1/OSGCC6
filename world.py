@@ -9,6 +9,7 @@ class World():
 		self.objects = pygame.sprite.Group() #hold random objects/sprites
 		self.players = pygame.sprite.Group()
 		self.player = None
+		self.enemy = pygame.sprite.Group()
 		self.clock = pygame.time.Clock()
 
 	#gets called by main game loop to do everything
@@ -25,6 +26,7 @@ class World():
 		self.screen.fill(pygame.Color(255,255,255))
 		self.level.Draw()
 		self.players.draw(self.screen)
+		self.enemy.draw(self.screen)
 		self.objects.draw(self.screen)
 
 	def getEvents(self):
@@ -34,16 +36,20 @@ class World():
 				sys.exit()
 		keystate =  pygame.key.get_pressed()
 		if keystate:
-			self.player.Update(keystate)
+                        for enemy in self.enemy:
+                                enemy.Update(keystate)
+                        self.player.Update(keystate)
 
 
 	def addPlayer(self, player):
 		self.players.add(player)
 		self.player = player
 
+	def addEnemy(self, enemy):
+                self.enemy.add(enemy)
+
 	def setLevel(self, level):
 		self.level = level
-
 
 	def addObject(self, object):
 		self.objects.add(object)
