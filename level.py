@@ -37,14 +37,14 @@ class Level():
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			enem = Enemy([x, y], self.world)
+			enem = Enemy([x, y], self.world, pygame.time.Clock())
 			self.enemies.add(enem)	
 
 
 	def Update(self):
 		for sprite in self.enemies:
-			sprite.Update(None)
-		pass
+			sprite.Update()
+		
 
 	#check collisions with objects
 	def checkCollision(self, obj, newPos):

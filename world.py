@@ -19,7 +19,7 @@ class World():
 			return
 
 		self.Draw()
-
+		self.level.Update()
 		for obj in self.objects:
 			if not obj.Update():
 				obj.kill()
