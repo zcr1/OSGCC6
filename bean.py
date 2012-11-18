@@ -5,7 +5,8 @@ import copy
 from math import sin, cos, atan, hypot
 
 class Bean(pygame.sprite.Sprite):
-
+	pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=4096)
+	robotdie = pygame.mixer.Sound("sounds/robot-die.wav")
 	speed = 30
 	durationMax = 1
 
@@ -38,6 +39,7 @@ class Bean(pygame.sprite.Sprite):
 			return True
 		else:
 			if self.world.level.checkCollisionEnemy(self):
+				self.robotdie.play()
 				self.kill()
 
 		return True

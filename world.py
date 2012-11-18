@@ -1,6 +1,6 @@
 import pygame
 import os
-
+import random
 class World():
 	size = width, height = 1600, 900
 	gravity = .4
@@ -16,6 +16,9 @@ class World():
 		self.bg1 = pygame.image.load(bgPath1).convert()
 
 		self.playerFlip = True
+
+		self.gameOverFlag = 0
+		self.gameOverCount = 0
 
 	#gets called by main game loop to do everything
 	def Update(self):
@@ -36,12 +39,31 @@ class World():
 
 
 	def gameOver(self):
-		pygame.font.init()
-		self.screen.fill(pygame.Color(224,24,13))
-		fontobj = pygame.font.Font(None,80)
-		msg = fontobj.render("YOU ARE LOSE", 1, (0,0,0))
-		self.screen.blit(msg,[700,450], area=None, special_flags=0)
-		pygame.display.update()
+		while self.gameOverCount < 100:
+			pygame.font.init()
+			fontPos = [random.randint(0,1200), random.randint(0,800)]
+			if self.gameOverFlag == 0:
+				self.screen.fill(pygame.Color(224,24,13))
+				fontobj = pygame.font.Font(None,80)
+				msg = fontobj.render("YOU ARE LOSE", 1, (0,0,0))
+				self.screen.blit(msg,fontPos, area=None, special_flags=0)
+			elif self.gameOverFlag == 1:
+				self.screen.fill(pygame.Color(240,38,240))
+				fontobj = pygame.font.Font(None,80)
+				msg = fontobj.render("YOU ARE LOSE", 1, (224,24,13))
+				self.screen.blit(msg,fontPos, area=None, special_flags=0)
+			elif self.gameOverFlag == 2:
+				self.screen.fill(pygame.Color(40,10,230))
+				fontobj = pygame.font.Font(None,80)
+				msg = fontobj.render("YOU ARE LOSE", 1, (255,255,255))
+				self.screen.blit(msg,fontPos, area=None, special_flags=0)
+			self.gameOverFlag += 1
+			if self.gameOverFlag == 3:
+				self.gameOverFlag = 0
+			pygame.display.update()
+			pygame.time.delay(10)
+			self.gameOverCount += 1
+			self.gameOver()
 		#pygame.time.delay(3000)
 
 	#do all the drawing

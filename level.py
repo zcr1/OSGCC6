@@ -154,6 +154,8 @@ class Level():
 				platform.rect.center = [800 -  (currentPos[0] - platform.worldPos[0]), 450  - (currentPos[1] - platform.worldPos[1])]	
 			self.drawGroup.add(platform)		
 		for platform in self.platforms:
+			if platform.gravyVent:
+				platform.updatePos()
 			if (platform.worldPos[0] >= (currentPos[0] - 1600)) and (platform.worldPos[0] <= (currentPos[0] + 1600)):
 				platform.rect.center = [800 -  (currentPos[0] - platform.worldPos[0]), 450  - (currentPos[1] - platform.worldPos[1])]
 				#print platform.rect.center[1]

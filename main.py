@@ -5,6 +5,7 @@ from player import *
 from world import *
 from level import *
 from menu import *
+
 background = pygame.image.load("images/menu_background.jpg")
 backgroundRect = background.get_rect()
 
@@ -17,14 +18,13 @@ def main():
 	level = Level(world)
 	world.addPlayer(player)
 	world.setLevel(level)
-	pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=4096)
+	 
 
-	#pygame.mixer.music.load("sounds/game.mp3")
-	#pygame.mixer.music.play(-1)
-	#pygame.mixer.music.set_volume(.3)
+	pygame.mixer.music.load("sounds/game.mp3")
+	pygame.mixer.music.play(-1)
+	pygame.mixer.music.set_volume(.3)
 	while True:
 		if world.Update() == -1:
-			pygame.time.delay(3000)
 			world = World()
 			player = Player([800,450], world)
 			level = Level(world)
@@ -51,7 +51,6 @@ def menuScreen():
 	menu.init(['Start','Options','Quit'], surface)#necessary
         #menu.move_menu(0, 0)#optional
  	menu.draw()#necessary
-    
 	pygame.key.set_repeat(199,69)#(delay,interval)
 	pygame.display.update()
         #surface.blit(background, backgroundRect)

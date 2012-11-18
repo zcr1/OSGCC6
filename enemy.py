@@ -14,7 +14,8 @@ class Enemy(pygame.sprite.Sprite):
 	jumpDelay = 1.25
 	aggroDistance = 600
 	shotDelay = .5
-	
+	mouthjump = pygame.mixer.Sound("sounds/mouth-jump.wav")
+
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
 	def __init__(self, pos, world, clock, type):
 		pygame.sprite.Sprite.__init__(self)
@@ -95,6 +96,7 @@ class Enemy(pygame.sprite.Sprite):
 			if self.deltaJump >= self.jumpDelay:
 				self.jumpVel = self.jumpSpeed
 				self.deltaJump = 0
+				self.mouthjump.play()
 
 		if not self.grounded:
 			self.jumpVel -= self.world.gravity

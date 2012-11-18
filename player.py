@@ -27,7 +27,8 @@ class Player(pygame.sprite.Sprite):
 	invulnEnemyDuration = 1.0
 	jumpGap = .25
 	gravyVent = 20
-
+	damage = pygame.mixer.Sound("sounds/damage_01.wav")
+	littleparp = pygame.mixer.Sound("sounds/little-parp.wav")
 
 
 
@@ -53,6 +54,7 @@ class Player(pygame.sprite.Sprite):
 		self.jumpCount = 0
 		self.jumpDuration = 10
 		self.onPlatform = False
+		self.delayFall = 0
 
 		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
@@ -76,7 +78,7 @@ class Player(pygame.sprite.Sprite):
 	def Update(self, keys):
 		secs = self.clock.tick()/1000.0
 		if self.grounded == False:
-			self.updateState(self.enumState.JUMPLEFT)
+			self.updateState(self.enumState.JUMPRIGHT)
 		self.jumpDuration += secs
 		self.shootstatetimer  -= secs
 		self.invulnDuration -= secs
@@ -171,6 +173,7 @@ class Player(pygame.sprite.Sprite):
 				self.dead = True
 			elif collisionObj.type == 4:
 				self.jumpVel =+ self.gravyVent
+				collisionObj.switchImage("11")
 				self.jumpCount = 0
 			elif newPos[1] > self.worldPos[1]:
 				self.jump = False
@@ -199,19 +202,13 @@ class Player(pygame.sprite.Sprite):
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
 			if newPos[1] < collisionObj.worldPos[1] and not self.grounded:
-				#if collisionObj.type == 1:
-					#soundOb = pygame.mixer.Sound("sounds/robot-die.wav")
-					#soundOb.set_volume(1)
-					#chan = soundOb.play()
-					#while chan.get_sound() != None:
-					#	pass
-
+				self.damage.play()
 				collisionObj.kill()
-
 				self.jump = True
 				self.jumpVel = self.jumpSpeed
 			else:
 				if not self.invulnDuration > 0:
+					self.damage.play()
 					self.hp -= 1
 					if self.hp == 0:
 						self.dead = True
@@ -226,6 +223,7 @@ class Player(pygame.sprite.Sprite):
 				if self.hp == 0:
 					self.dead = True
 			collisionObj.kill()
+			self.littleparp.play()
 
 
 
@@ -233,8 +231,8 @@ class Player(pygame.sprite.Sprite):
 		if collisionObj:
 			if collisionObj.death == 1:
 				self.dead = True
-			if collisionObj.isFall():
-				collisionObj.Active()
+			#if collisionObj.isFall():
+			#	collisionObj.Active()
 			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
 				self.jump = False
 				if collisionObj.direction[1] == 1:
@@ -273,7 +271,7 @@ class Player(pygame.sprite.Sprite):
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:
-			
+			self.littleparp.play()
 			self.lastShot = 0
 			if(self.faceDir[0] < 0):
 				self.updateState(self.enumState.SHOOTL)
@@ -305,12 +303,13 @@ class Player(pygame.sprite.Sprite):
 		if(self.shootstatetimer > 0):
 			self.image = self.strips[n].next()
 			return None;
-		if(self.grounded == True and self.horizVel == 0):
-			self.state = self.enumState.STAND
+		if((self.grounded == True and self.horizVel == 0) or (self.horizVel == 0 and self.jumpVel == 0)):
+				self.state = self.enumState.STAND
  		if (self.stateChanged==1):
-			if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
+			#if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
+			if(self.grounded == False and self.faceDir[0] < 0):
 				self.state = self.enumState.JUMPLEFT
-			if(self.faceDir[0] > 0 and self.state == self.enumState.JUMPLEFT):
+			elif(self.faceDir[0] > 0 and self.state == self.enumState.JUMPLEFT):
 				self.state = self.enumState.JUMPRIGHT
 			self.strips[n].iter()
 			self.image = self.strips[n].next()
