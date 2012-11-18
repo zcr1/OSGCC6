@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
 		self.state = -1
 		self.updateState(self.enumState.STAND)
-		self.HP = 10
+		self.hp = 20
 
 	#do updates
 	def Update(self, keys):
@@ -84,11 +84,7 @@ class Player(pygame.sprite.Sprite):
 		self.direction = copy.deepcopy(newDir)
 
 	def updatePos(self):
-		diagSpecial = 1
-
-		#if self.direction[0] != 0 and self.direction[1] != 0:
-		#	diagSpecial = .707
-		
+		diagSpecial = 1	
 		deltaHoriz = self.horizVel * diagSpecial  * self.friction
 
 		if self.horizVel < 0:
@@ -105,7 +101,14 @@ class Player(pygame.sprite.Sprite):
 
 		newPos = [newPos[0], (int)(newPos[1] - (self.jumpVel * diagSpecial))]
 
-		collisionObj = self.world.checkCollision(self, newPos)
+		newPos = self.getCollisions(newPos)
+
+		self.worldPos = newPos
+		self.updateSpriteSheet()
+
+	def getCollisions(self, newPos):
+		#y direction
+		collisionObj = self.world.checkCollision(self, [self.worldPos[0],newPos[1]])
 		if collisionObj:
 			if collisionObj.death == 1:
 				self.dead = True
@@ -114,11 +117,28 @@ class Player(pygame.sprite.Sprite):
 				self.jumpVel = 0
 				self.grounded = True
 				#newPos[1] = copy.deepcopy(collisionObj.rect.top)
+			elif newPos[1] < self.worldPos[1] and not self.grounded:
+				newPos[1] += 10
+				self.jumpVel = -2
 		else: 
 			self.grounded = False
+		#x  direction
+		collisionObj = self.world.checkCollision(self, [newPos[0], self.worldPos[1]])
+		if collisionObj and not self.grounded:
+			if collisionObj.death == 1:
+				self.dead = True
+			elif newPos[0] > self.worldPos[0]:
+				newPos[0] -= 10
+			elif newPos[0] < self.worldPos[0]:
+				newPos[0] += 10
 
-		self.worldPos = newPos
-		self.updateSpriteSheet()
+		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
+		if collisionObj:
+			self.hp -= 1
+			print self.hp
+
+		return newPos
+
 		
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0

@@ -1,5 +1,5 @@
 import pygame
-
+import os
 
 class World():
 	size = width, height = 1600, 900
@@ -38,8 +38,16 @@ class World():
 		self.screen.fill(pygame.Color(255,255,255))
 		self.level.Draw()
 		self.players.draw(self.screen)
+		self.drawGUI()
 
-		#self.objects.draw(self.screen) now drawn in level
+
+	def drawGUI(self):
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/bean.png"
+		img = pygame.image.load(imgPath)
+		for i in range(self.player.hp):
+			self.screen.blit(img,(40 * (i + 1), 50))			
+
+
 
 	def getEvents(self):
 		for event in pygame.event.get():
