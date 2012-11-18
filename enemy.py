@@ -53,13 +53,7 @@ class Enemy(pygame.sprite.Sprite):
 
 		elif keys[pygame.K_d]:
                         
-                        self.stateChange = 1
-                        imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/chickenrun.png"
-                        strips = [
-                            SpriteStripAnim(imgPath, (0,0,100,100), 6, 0, True, frames = 15)
-                        ]
-                        n = 0
-                        strips[n].iter()
+
                         
 			newDir[0] = 1
 			self.state = self.enumState.RUNRIGHT	
