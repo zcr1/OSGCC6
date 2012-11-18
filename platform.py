@@ -18,6 +18,7 @@ class Platform(pygame.sprite.Sprite):
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
 
 		self.image = pygame.image.load(imgPath)
+
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
 		self.worldPos = pos
@@ -62,10 +63,11 @@ class Platform(pygame.sprite.Sprite):
 		if self.gravyVent and self.sprung:
 			secs = self.clock.tick() / 1000.0
 			self.springDur += secs
-			print self.springDur
-			if self.springDur > 1.5:
+
+			if self.springDur > 0.5:
 				self.switchImage("10")
 				self.springDur = 0.0
+
 
 		delta = self.moveInc
 		if self.currDisplacement < self.maxDisplacement:

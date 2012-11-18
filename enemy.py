@@ -179,8 +179,8 @@ class Enemy(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
 		if collisionObj:
-			if collisionObj.isFall():
-				collisionObj.Active()
+			#if collisionObj.isFall():
+			#	collisionObj.Active()
 			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
 				self.jump = False
 				if collisionObj.direction[1] == 1:

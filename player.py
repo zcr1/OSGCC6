@@ -55,6 +55,7 @@ class Player(pygame.sprite.Sprite):
 		self.jumpDuration = 10
 		self.onPlatform = False
 		self.delayFall = 0
+		self.platformCount = 0
 
 		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
@@ -77,7 +78,7 @@ class Player(pygame.sprite.Sprite):
 	#do updates
 	def Update(self, keys):
 		secs = self.clock.tick()/1000.0
-		if self.grounded == False:
+		if self.grounded == False and not self.onPlatform:
 			self.updateState(self.enumState.JUMPRIGHT)
 		self.jumpDuration += secs
 		self.shootstatetimer  -= secs
@@ -194,6 +195,7 @@ class Player(pygame.sprite.Sprite):
 			if collisionObj.death == 1:
 				self.dead = True
 			elif collisionObj.type == 4:
+				collisionObj.switchImage("11")
 				self.jumpVel =+ 15
 				self.jumpCount = 0
 			elif newPos[0] > self.worldPos[0]:
@@ -231,6 +233,7 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
 		if collisionObj:
+			self.onPlatform = True
 			if collisionObj.death == 1:
 				self.dead = True
 			#if collisionObj.isFall():
@@ -265,7 +268,10 @@ class Player(pygame.sprite.Sprite):
 				newPos[1] += 10
 				self.jumpVel = 0			
 		else:
+			#self.platformCount += 1
+			#if self.platformCount > 100:
 			self.onPlatform = False
+				#self.platformCount = 0
 
 		return newPos
 
@@ -307,7 +313,7 @@ class Player(pygame.sprite.Sprite):
 			return None;
 		if((self.grounded == True and self.horizVel == 0) or (self.horizVel == 0 and self.jumpVel == 0)):
 				self.state = self.enumState.STAND
- 		if (self.stateChanged==1):
+ 		if (self.stateChanged==1 and not self.onPlatform):
 			#if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
 			if(self.grounded == False and self.faceDir[0] < 0):
 				self.state = self.enumState.JUMPLEFT
