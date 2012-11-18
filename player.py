@@ -165,11 +165,11 @@ class Player(pygame.sprite.Sprite):
 					self.hp -= 1
 					self.invulnDuration = self.invulnEnemyDuration
 
-			collisionObj = self.world.level.checkItemCollision(self)
-			if collisionObj:
-				if not self.invulnDuration > 0:
-					self.hp += 1
-					self.invulnDuration = self.invulnEnemyDuration
+		collisionObj = self.world.level.checkItemCollision(self, newPos)
+		if collisionObj:
+			print collisionObj.worldPos
+			print self.worldPos
+			collisionObj.kill()
 
 
 		return newPos

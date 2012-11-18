@@ -77,11 +77,14 @@ class Level():
 		return None
 
 	#check collisions with items
-	def checkItemCollision(self, obj):
+	def checkItemCollision(self, obj, newPos):
+		newrect = copy.deepcopy(obj.rect)
+		newrect.center = newPos		
 		for item in self.items:
-			if item.rect.colliderect(obj.rect):
-				item.kill()
-				return True
+			newItem = copy.deepcopy(item.rect)
+			newItem.center = item.worldPos
+			if newItem.colliderect(newrect):
+				return item
 		return None 
 
 
