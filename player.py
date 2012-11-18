@@ -13,8 +13,9 @@ class Player(pygame.sprite.Sprite):
 	speedInc = 2
 	jumpSpeed = 12
 	friction = .9
-	shotDelay = .2
+	shotDelay = .4
 	maxFall = 30
+	shotDisplayDelay = .5
 	invulnEnemyDuration = 1.0
 	jumpGap = .25
 
@@ -30,6 +31,7 @@ class Player(pygame.sprite.Sprite):
 		self.horizVel = 0
 		self.lastShot = 0
 		self.statechanged = 0
+		self.shootstatetimer = 0
 		self.world = world
 		self.dead = False
 		self.grounded = False
@@ -44,8 +46,8 @@ class Player(pygame.sprite.Sprite):
  			SpriteStripAnim('images/chickenrun2.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenjump.png', (0,0,100,100), 2, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenjumpR.png', (0,0,100,100), 2, (16, 16, 16), True, 5),
- 			SpriteStripAnim('images/chickenspit.png', (0,0,100,100), 1, (16, 16, 16), True, 5),
- 			SpriteStripAnim('images/chickenspit.png', (100,0,100,100), 1, (16, 16, 16), True, 5)
+ 			SpriteStripAnim('images/chickenspit.png', (100,0,100,100), 1, (16, 16, 16), True, 50),
+ 			SpriteStripAnim('images/chickenspit.png', (0,0,100,100), 1, (16, 16, 16), True, 50)
 		]
 		#http://stackoverflow.com/questions/36932/whats-the-best-way-to-implement-an-enum-in-python
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMPLEFT=3, JUMPRIGHT=4, SHOOTL=5, SHOOTR=6)
@@ -56,7 +58,10 @@ class Player(pygame.sprite.Sprite):
 	#do updates
 	def Update(self, keys):
 		secs = self.clock.tick()/1000.0
+		if self.grounded == False:
+			self.updateState(self.enumState.JUMPLEFT)
 		self.jumpDuration += secs
+		self.shootstatetimer  -= secs
 		self.invulnDuration -= secs
 		if self.invulnDuration < 0:
 			self.invulnDuration = 0
@@ -178,6 +183,11 @@ class Player(pygame.sprite.Sprite):
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:
+			if(self.direction[0] < 0):
+				self.updateState(self.enumState.SHOOTL)
+			else:
+				self.updateState(self.enumState.SHOOTR)
+			self.shootstatetimer = self.shotDisplayDelay
 			self.lastShot = 0
 			return Bean(self.rect.center, self.worldPos, self.direction, self.world)
 		else:
@@ -185,14 +195,20 @@ class Player(pygame.sprite.Sprite):
 			return None
 
 	def updateState(self, state):
+		if(self.shootstatetimer > 0):
+			return None;
 		if(self.state != state):
 			self.stateChanged = 1
 		self.state = state
 
 	def updateSpriteSheet(self):
 		n = (int)(self.state)
+
+		if(self.shootstatetimer > 0):
+			self.image = self.strips[n].next()
+			return None;
 		if(self.grounded == True and self.horizVel == 0):
-				self.state = self.enumState.STAND
+			self.state = self.enumState.STAND
  		if (self.stateChanged==1):
 			if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
 				self.state = self.enumState.JUMPLEFT
