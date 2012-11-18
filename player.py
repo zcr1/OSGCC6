@@ -74,6 +74,7 @@ class Player(pygame.sprite.Sprite):
 		#newPos = [newPos[0], (int)(newPos[1] - self.jumpVel)]
 
 		self.rect.center = newPos
+		self.worldPos = newPos
 		
 
 	def enum(*sequential, **named):
