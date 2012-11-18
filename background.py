@@ -40,7 +40,7 @@ class Background():
 		elif(self.x2 > 1600):
 			self.x2 -= 3200
 
-		print self.y
+		#rint self.y
 		self.y = self.y - y * fraction
 		if(self.y > 0):
 			self.y = 0
