@@ -9,8 +9,8 @@ from sprite_strip_anim import SpriteStripAnim
 
 class Player(pygame.sprite.Sprite):
 
-	speedMax = 10
-	speedInc = 2
+	speedMax = 40 #10
+	speedInc = 6 #2
 	jumpSpeed = 12
 	friction = .9
 	shotDelay = .4
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 			if self.jumpDuration > self.jumpGap:
 				self.jumpDuration = 0
 				self.jumpCount += 1
-				if self.jumpCount < 2:
+				if self.jumpCount < 20:
 					self.jump = True
 					self.jumpVel = self.jumpSpeed
 					newDir[1] = -1
