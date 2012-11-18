@@ -37,7 +37,8 @@ class Level():
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			enem = Enemy([x, y], self.world, pygame.time.Clock())
+			enemType = (int)(words[2])
+			enem = Enemy([x, y], self.world, pygame.time.Clock(), enemType)
 			self.enemies.add(enem)	
 
 

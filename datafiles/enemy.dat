@@ -1,2 +1,2 @@
-enemy:	(x y height width)
-400 665 30 30
+enemy:	(x y height width type)
+400 665 30 30 0
