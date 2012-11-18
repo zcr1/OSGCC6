@@ -70,8 +70,8 @@ class Player(pygame.sprite.Sprite):
 			self.horizVel = self.horizVel * self.friction	
 		newPos = [self.rect.center[0] + deltaHoriz, self.rect.center[1] + self.direction[1] * diagSpecial]
 
-		#self.jumpVel -= self.world.gravity
-		#newPos = [newPos[0], (int)(newPos[1] - self.jumpVel)]
+		self.jumpVel -= self.world.gravity
+		newPos = [newPos[0], (int)(newPos[1] - self.jumpVel)]
 
 		self.rect.center = newPos
 		self.worldPos = newPos

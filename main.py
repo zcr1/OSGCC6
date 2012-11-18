@@ -11,7 +11,7 @@ def main():
 	FPS = 30
 	world = World()
 	player = Player([400,400], world)
-	level = Level()
+	level = Level(world)
 	world.addPlayer(player)
 	world.setLevel(level)
 
