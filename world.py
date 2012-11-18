@@ -48,7 +48,7 @@ class World():
 	def Draw(self):
 
 		#self.screen.fill(pygame.Color(255,255,255))
-		self.screen.blit(self.bg1,(0,0))
+		#self.screen.blit(self.bg1,(0,0))
 		self.level.Draw()
 
 		#if player takes damage have him flickr beautifully

@@ -156,7 +156,7 @@ class Player(pygame.sprite.Sprite):
 		newPos = [newPos[0], (int)(newPos[1] - (self.jumpVel * diagSpecial))]
 
 		newPos = self.getCollisions(newPos)
-
+		self.world.level.bg1.updatePos(newPos[0]-self.worldPos[0], newPos[1]-self.worldPos[1], .1)
 		self.worldPos = newPos
 		self.updateSpriteSheet()
 

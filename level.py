@@ -2,6 +2,7 @@
 import pygame, os
 from pygame.locals import *
 from platform import *
+from background import *
 from enemy import *
 from item import *
 import copy
@@ -19,6 +20,7 @@ class Level():
 		self.platforms = pygame.sprite.Group()
 		self.drawGroup = pygame.sprite.Group() #which sprties are in view to draw
 		self.movePlatforms = pygame.sprite.Group()
+		self.bg1 = Background("background1.png", "background2.png")
 
 		for i in range (1, len(allLines)):
 			words = allLines[i].split(" ")
@@ -143,6 +145,7 @@ class Level():
 
 	def Draw(self):
 		currentPos = copy.deepcopy(self.world.player.worldPos) #players current worldPos
+		self.bg1.Draw(self.world.screen)
 		self.drawGroup.empty()
 		#screen = pygame.Rect((currentPos[0] - 800,currentPos[1] + 450),(800,450))
 		for platform in self.movePlatforms:
