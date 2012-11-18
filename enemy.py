@@ -12,7 +12,7 @@ class Enemy(pygame.sprite.Sprite):
 	jumpSpeed = 12
 	friction = .9
 	jumpDelay = 2
-	aggroDistance = 300
+	aggroDistance = 400
 	shotDelay = .5
 	
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
@@ -43,11 +43,10 @@ class Enemy(pygame.sprite.Sprite):
 		self.state = -1
 		if type == 0:
 			self.updateState(self.enumState.ROLLLEFT)
-		if type == 2:
 			self.shooter = True
-			self.updateState(self.enumState.JUMPER)
-		else:
+		if type == 2:
 			self.shooter = False
+			self.updateState(self.enumState.JUMPER)
 		if type == 1:
 			self.jumper = True
 			self.updateState(self.enumState.JUMPER)
@@ -66,7 +65,8 @@ class Enemy(pygame.sprite.Sprite):
 	def Update(self):
 		if self.aggro:
 			self.secs = self.world.clock.tick() / 1000.0
-			self.Fire()
+			if self.shooter:
+				self.Fire()
 			self.updatePos()
 
 		else:
@@ -89,7 +89,7 @@ class Enemy(pygame.sprite.Sprite):
 
 	def updatePos(self):
 
-		if self.jumper or self.jumpVel != 0: #jump every x seconds
+		if self.jumper: #jump every x seconds
 			self.deltaJump += self.clock.tick() / 1000.0
 			if self.deltaJump >= self.jumpDelay:
 				self.jumpVel = self.jumpSpeed

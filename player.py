@@ -162,7 +162,6 @@ class Player(pygame.sprite.Sprite):
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
 			if newPos[1] < collisionObj.worldPos[1]:
-				#if (newPos[1] - self.worldPos[1]) > 2.5:
 				collisionObj.kill()
 				self.jump = True
 				self.jumpVel = self.jumpSpeed

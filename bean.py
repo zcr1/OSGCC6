@@ -6,7 +6,7 @@ from math import sin, cos, atan, hypot
 
 class Bean(pygame.sprite.Sprite):
 
-	speed = 20
+	speed = 30
 	durationMax = 1
 
 	def __init__(self, localPos, worldPos, direction, world, enemy):
