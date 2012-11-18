@@ -72,7 +72,12 @@ class Level():
 		newrect = copy.deepcopy(player.rect)
 		newrect.center = newPos		
 		for enemy in self.enemies:
-			if enemy.rect.colliderect(newrect):
+			#print enemy.worldPos[0] - newPos[0]
+			#print enemy.worldPos[1] - newPos[1]
+			enemyrect = copy.deepcopy(enemy.rect)
+			enemyrect.center = enemy.worldPos
+			#if enemy.rect.colliderect(newrect):
+			if enemyrect.colliderect(newrect):
 				return True
 		return None
 

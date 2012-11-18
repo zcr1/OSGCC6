@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
 	friction = .9
 	shotDelay = .1
 	maxFall = 30
+	invulnEnemyDuration = 1.0
 
 	def __init__(self, pos, world):
 		pygame.sprite.Sprite.__init__(self)
@@ -32,6 +33,8 @@ class Player(pygame.sprite.Sprite):
 		self.dead = False
 		self.grounded = False
 		self.jump = False
+		self.invulnDuration = 0
+		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
 			SpriteStripAnim('images/chickenrunL.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenrun2.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
@@ -48,8 +51,14 @@ class Player(pygame.sprite.Sprite):
 
 	#do updates
 	def Update(self, keys):
+		self.invulnDuration -= self.clock.tick()/1000.0
+
+		if self.invulnDuration < 0:
+			self.invulnDuration = 0
+		print self.invulnDuration
 		self.parseKeys(keys)
 		self.updatePos()
+
 
 	def parseKeys(self, keys):
 		newDir = [0,0]
@@ -58,9 +67,9 @@ class Player(pygame.sprite.Sprite):
 			#if not self.jump:
 			self.jump = True
 			self.jumpVel = self.jumpSpeed
-			self.state = self.enumState.JUMP
+			#self.state = self.enumState.JUMP
 			newDir[1] = -1
-			self.updateState(self.enumState.JUMP)
+			self.updateState(self.enumState.JUMPLEFT)
 
 		elif keys[pygame.K_s]:
 			pass
@@ -136,8 +145,11 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
-			self.hp -= 1
-			print self.hp
+			if not self.invulnDuration > 0:
+				self.hp -= 1
+				self.invulnDuration = self.invulnEnemyDuration
+
+
 
 		return newPos
 
