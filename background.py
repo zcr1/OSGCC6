@@ -12,8 +12,8 @@ class Background():
 		imgPath1 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath1
 		imgPath2 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath2
 
-		self.image1 = pygame.image.load(imgPath1).convert()
-		self.image2 = pygame.image.load(imgPath2).convert()
+		self.image1 = pygame.image.load(imgPath1)
+		self.image2 = pygame.image.load(imgPath2)
 
 		self.x1 = 0
 		self.y = -300
