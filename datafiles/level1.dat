@@ -13,4 +13,4 @@ platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1
 2400 525 400 50 0 01 0
 2615 475 30 400 0 03 0
 2830 300 400 50 0 02 0
-3230 300 400 50 0 05 1
+3230 300 400 50 0 04 1
