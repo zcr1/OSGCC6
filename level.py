@@ -2,6 +2,7 @@
 import pygame, os
 from pygame.locals import *
 from platform import *
+from enemy import *
 import copy
 import math
 
@@ -25,7 +26,24 @@ class Level():
 			self.platforms.add(plat)
 
 
+		# Add enemies to level
+		enemy_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/datafiles/enemy.dat"
+		f = open(enemy_dat_path)
+
+		allLines = f.readlines()
+		self.enemies = pygame.sprite.Group()
+
+		for i in range (1, len(allLines)):
+			words = allLines[i].split(" ")
+			x = (int)(words[0])
+			y = (int)(words[1])
+			enem = Enemy([x, y], self.world)
+			self.enemies.add(enem)	
+
+
 	def Update(self):
+		for sprite in self.enemies:
+			sprite.Update(None)
 		pass
 
 	#check collisions with objects
@@ -58,6 +76,10 @@ class Level():
 			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
 				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
 				self.drawGroup.add(obj)		
+		for obj in self.enemies:
+			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
+				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
+				self.drawGroup.add(obj)	
 		self.drawGroup.draw(self.world.screen)
 
 	
