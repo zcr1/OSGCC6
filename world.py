@@ -61,7 +61,8 @@ class World():
 			self.screen.blit(background, backgroundRect)
 			pygame.display.update()
 			pygame.time.delay(300)
-		
+			count += 1
+
 
 	def gameOver(self):
 		while self.gameOverCount < 100:
