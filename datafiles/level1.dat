@@ -1,3 +1,7 @@
-platforms:  (x, y, height, width, collideS, collideT, collideB)
-200 200 30 400 1 1 1
-300 500 30 400 1 1 1
+platforms:  (x, y, height, width, death)
+800 700 400 30 0
+400 700 400 30 0
+0 700 400 30 0
+1200 700 400 30 0
+1600 700 400 30 0
+800 300 400 30 0

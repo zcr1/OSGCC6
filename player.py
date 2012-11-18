@@ -7,11 +7,12 @@ import math
 
 class Player(pygame.sprite.Sprite):
 
-	speedMax = 20
-	speedInc = 4
-	jumpSpeed = 20
+	speedMax = 10
+	speedInc = 2
+	jumpSpeed = 10
 	friction = .9
 	shotDelay = .1
+	maxFall = 30
 
 	def __init__(self, pos, world):
 		pygame.sprite.Sprite.__init__(self)
@@ -29,6 +30,9 @@ class Player(pygame.sprite.Sprite):
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
 		self.state = self.enumState.STAND
 		self.HP = 10
+		self.grounded = False
+		self.dead = False
+		self.jump = False
 
 	#do updates
 	def Update(self, keys):
@@ -39,25 +43,26 @@ class Player(pygame.sprite.Sprite):
 		newDir = [0,0]
 
 		if keys[pygame.K_w]:
-			newDir[1] = -1
-			self.jumpVel = self.jumpSpeed
-			self.state = self.enumState.JUMP
-		elif keys[pygame.K_s]:
-			pass
-			#newDir[1] = 1
-			#self.state = self.enumState.RUNLEFT
+			if not self.jump:
+				#self.jump = True
+				newDir[1] = -1
+				self.jumpVel = self.jumpSpeed
+				self.state = self.enumState.JUMP
+
 		if keys[pygame.K_a]:
 			newDir[0] = -1
 			self.state = self.enumState.RUNLEFT
 			self.horizVel -= self.speedInc
 			if self.horizVel < -self.speedMax:
 				self.horizVel = -self.speedMax
+
 		elif keys[pygame.K_d]:
 			newDir[0] = 1
 			self.state = self.enumState.RUNRIGHT	
 			self.horizVel += self.speedInc
 			if self.horizVel > self.speedMax:
 				self.horizVel = self.speedMax
+
 		if keys[pygame.K_SPACE]:
 			bean = self.Fire()
 			if bean:
@@ -67,21 +72,41 @@ class Player(pygame.sprite.Sprite):
 
 	def updatePos(self):
 		diagSpecial = 1
-		if self.direction[0] != 0 and self.direction[1] != 0:
-			diagSpecial = .707
+
+		#if self.direction[0] != 0 and self.direction[1] != 0:
+		#	diagSpecial = .707
+		
 		deltaHoriz = self.horizVel * diagSpecial  * self.friction
+
 		if self.horizVel < 0:
 			self.horizVel =  math.ceil(self.horizVel * self.friction)
 		else:
 			self.horizVel = self.horizVel * self.friction	
-		newPos = [self.rect.center[0] + deltaHoriz, self.rect.center[1] + self.direction[1] * diagSpecial]
 
-		self.jumpVel -= self.world.gravity
-		newPos = [newPos[0], (int)(newPos[1] - self.jumpVel)]
+		newPos = [self.worldPos[0] + deltaHoriz, self.worldPos[1]]
 
-		self.rect.center = newPos
+		if not self.grounded:
+			self.jumpVel -= self.world.gravity
+			if self.jumpVel < -self.maxFall:
+				self.jumpVel = -self.maxFall
+
+		newPos = [newPos[0], (int)(newPos[1] - (self.jumpVel * diagSpecial))]
+
+		collisionObj = self.world.checkCollision(self, newPos)
+		if collisionObj:
+			if collisionObj.death == 1:
+				self.dead = True
+			elif newPos[1] > self.worldPos[1]:
+				self.jump = False
+				self.jumpVel = 0
+				self.grounded = True
+				#newPos[1] = copy.deepcopy(collisionObj.rect.top) + 30
+		else: 
+			self.grounded = False
+
 		self.worldPos = newPos
-		
+
+	
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:

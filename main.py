@@ -1,4 +1,4 @@
-#OSGCC 6 
+#OSGCC 6 a
 
 import pygame, sys
 from player import *
@@ -8,9 +8,9 @@ from level import *
 def main():
 	
 	clock = pygame.time.Clock()
-	FPS = 30
+	FPS = 60
 	world = World()
-	player = Player([400,400], world)
+	player = Player([800,450], world)
 	level = Level(world)
 	world.addPlayer(player)
 	world.setLevel(level)

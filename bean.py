@@ -1,6 +1,7 @@
 
 import pygame
 import os
+import copy
 from math import sin, cos, atan, hypot
 
 class Bean(pygame.sprite.Sprite):
@@ -13,9 +14,9 @@ class Bean(pygame.sprite.Sprite):
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/bean.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
-		self.rect.center = localPos
-		self.worldPos = worldPos
-		self.direction = direction
+		self.rect.center = copy.deepcopy(localPos)
+		self.worldPos = copy.deepcopy(worldPos)
+		self.direction = copy.deepcopy(direction)
 		self.duration = 0
 		self.clock = pygame.time.Clock()
 		if self.direction[0] == 0:
@@ -36,7 +37,7 @@ class Bean(pygame.sprite.Sprite):
 		deltaX = deltaY = 0
 		deltaX = self.direction[0] * self.speed
 		deltaY = self.direction[1] * self.speed
-		self.rect.center = [self.rect.center[0] + deltaX, self.rect.center[1] + deltaY]
+		self.worldPos = [self.worldPos[0] + deltaX, self.worldPos[1] + deltaY]
 		#print self.rect.center
 
 	#def Rotate(self):
