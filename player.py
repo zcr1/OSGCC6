@@ -58,9 +58,9 @@ class Player(pygame.sprite.Sprite):
 			#if not self.jump:
 			self.jump = True
 			self.jumpVel = self.jumpSpeed
-			self.state = self.enumState.JUMP
+			self.state = self.enumState.JUMPLEFT
 			newDir[1] = -1
-			self.updateState(self.enumState.JUMP)
+			self.updateState(self.enumState.JUMPLEFT)
 
 		elif keys[pygame.K_s]:
 			pass
