@@ -11,11 +11,12 @@ class Player(pygame.sprite.Sprite):
 
 	speedMax = 10
 	speedInc = 2
-	jumpSpeed = 10
+	jumpSpeed = 12
 	friction = .9
 	shotDelay = .2
 	maxFall = 30
 	invulnEnemyDuration = 1.0
+	jumpGap = .25
 
 	def __init__(self, pos, world):
 		pygame.sprite.Sprite.__init__(self)
@@ -34,6 +35,9 @@ class Player(pygame.sprite.Sprite):
 		self.grounded = False
 		self.jump = False
 		self.invulnDuration = 0
+		self.jumpCount = 0
+		self.jumpDuration = 10
+
 		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
 			SpriteStripAnim('images/chickenrunL.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
@@ -51,7 +55,9 @@ class Player(pygame.sprite.Sprite):
 
 	#do updates
 	def Update(self, keys):
-		self.invulnDuration -= self.clock.tick()/1000.0
+		secs = self.clock.tick()/1000.0
+		self.jumpDuration += secs
+		self.invulnDuration -= secs
 		if self.invulnDuration < 0:
 			self.invulnDuration = 0
 		self.parseKeys(keys)
@@ -62,12 +68,14 @@ class Player(pygame.sprite.Sprite):
 		newDir = [0,0]
 
 		if keys[pygame.K_w]:
-			#if not self.jump:
-			self.jump = True
-			self.jumpVel = self.jumpSpeed
-			#self.state = self.enumState.JUMP
-			newDir[1] = -1
-			self.updateState(self.enumState.JUMPLEFT)
+			if self.jumpDuration > self.jumpGap:
+				self.jumpDuration = 0
+				self.jumpCount += 1
+				if self.jumpCount < 3:
+					self.jump = True
+					self.jumpVel = self.jumpSpeed
+					newDir[1] = -1
+					self.updateState(self.enumState.JUMPLEFT)
 
 		elif keys[pygame.K_s]:
 			pass
@@ -128,6 +136,7 @@ class Player(pygame.sprite.Sprite):
 				self.jump = False
 				self.jumpVel = 0
 				self.grounded = True
+				self.jumpCount = 0
 				#newPos[1] = copy.deepcopy(collisionObj.rect.top)
 			elif newPos[1] < self.worldPos[1] and not self.grounded:
 				newPos[1] += 10
@@ -146,18 +155,15 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
-			if newPos[0] > self.worldPos[0]:
-				if (newPos[0] - self.worldPos[0]) > 10:
-					collisionObj.kill()
-					self.jump = True
-					self.jumpVel = self.jumpSpeed
-				else:
-					if not self.invulnDuration > 0:	
-						self.hp -= 1
-						self.invulnDuration = self.invulnEnemyDuration
-			if not self.invulnDuration > 0:
-				self.hp -= 1
-				self.invulnDuration = self.invulnEnemyDuration
+			if newPos[1] < collisionObj.worldPos[1]:
+				#if (newPos[1] - self.worldPos[1]) > 2.5:
+				collisionObj.kill()
+				self.jump = True
+				self.jumpVel = self.jumpSpeed
+			else:
+				if not self.invulnDuration > 0:
+					self.hp -= 1
+					self.invulnDuration = self.invulnEnemyDuration
 
 
 

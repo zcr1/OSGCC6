@@ -41,7 +41,6 @@ class Bean(pygame.sprite.Sprite):
 		deltaX = self.direction[0] * self.speed
 		deltaY = self.direction[1] * self.speed
 		self.worldPos = [self.worldPos[0] + deltaX, self.worldPos[1] + deltaY]
-		#print self.rect.center
 
 	#def Rotate(self):
 	#	self.image = pygame.transform.rotate(self.image, 57 * self.Direction(self.direction[0], -self.direction[1]))

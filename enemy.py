@@ -15,7 +15,7 @@ class Enemy(pygame.sprite.Sprite):
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
 	def __init__(self, pos, world, clock, type):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/enemy.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/enemy1.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = copy.deepcopy(pos)
@@ -26,6 +26,7 @@ class Enemy(pygame.sprite.Sprite):
 		self.stateChange = 0
 		self.clock = clock
 		self.grounded = False
+		self.type = type
 
 		if type == 1:
 			self.jumper = True
@@ -85,7 +86,6 @@ class Enemy(pygame.sprite.Sprite):
 		newPos = self.getCollisions(newPos, flag)
 		#if newPos[1] != self.worldPos[1]:
 		if not self.grounded:
-			print "ungrounded"
 			self.direction[0] = -self.direction[0]	
 
 		
