@@ -33,7 +33,7 @@
             <key>chicken-run03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,104},{100,100}}</string>
+                <string>{{206,2},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>chicken-run04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{104,104},{100,100}}</string>
+                <string>{{308,2},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,7 +59,7 @@
             <key>chicken-run05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,206},{100,100}}</string>
+                <string>{{410,2},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>chicken-run06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{104,206},{100,100}}</string>
+                <string>{{512,2},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -90,9 +90,9 @@
             <key>realTextureFileName</key>
             <string>chickenrun.png</string>
             <key>size</key>
-            <string>{256,512}</string>
+            <string>{1024,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:21a0985d69e14fe4465e128b1b06f251$</string>
+            <string>$TexturePacker:SmartUpdate:42a4caed46fbf015e49207f3f38ab66f$</string>
             <key>textureFileName</key>
             <string>chickenrun.png</string>
         </dict>
