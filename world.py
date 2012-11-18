@@ -7,6 +7,7 @@ class World():
 	def __init__(self):
 		self.screen = pygame.display.set_mode(self.size)
 		self.objects = pygame.sprite.Group() #hold random objects/sprites
+		self.enemyObjects = pygame.sprite.Group()
 		self.players = pygame.sprite.Group()
 		self.player = None
 		self.clock = pygame.time.Clock()
@@ -26,6 +27,9 @@ class World():
 		self.Draw()
 		self.level.Update()
 		for obj in self.objects:
+			if not obj.Update():
+				obj.kill()
+		for obj in self.enemyObjects:
 			if not obj.Update():
 				obj.kill()
 

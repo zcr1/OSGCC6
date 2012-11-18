@@ -18,13 +18,17 @@ class Level():
 		allLines = f.readlines()
 		self.platforms = pygame.sprite.Group()
 		self.drawGroup = pygame.sprite.Group() #which sprties are in view to draw
+		self.movePlatforms = pygame.sprite.Group()
 
 		for i in range (1, len(allLines)):
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			plat = Platform([x, y], words[2], words[3], words[4], words[5])
-			self.platforms.add(plat)
+			plat = Platform([x, y], words[2], words[3], words[4], words[5], 1)
+			if plat.moveX or plat.moveY:
+				self.movePlatforms.add(plat)
+			else:
+				self.platforms.add(plat)
 
 
 		# Add enemies to level
@@ -112,17 +116,31 @@ class Level():
 		return None
 
 
+	def checkCollisionMoving(self, obj, newPos):
+		newrect = copy.deepcopy(obj.rect)
+		newrect.center = newPos		
+		for plat in self.movePlatforms:
+			if plat == obj:
+				pass
+			else:
+				enemyrect = copy.deepcopy(plat.rect)
+				enemyrect.center = plat.worldPos
+				if enemyrect.colliderect(newrect):
+					return plat
+		return None
+
 
 
 	def Draw(self):
 		currentPos = copy.deepcopy(self.world.player.worldPos) #players current worldPos
 		self.drawGroup.empty()
 		#screen = pygame.Rect((currentPos[0] - 800,currentPos[1] + 450),(800,450))
-
+		for platform in self.movePlatforms:
+			platform.updatePos()
+			if (platform.worldPos[0] >= (currentPos[0] - 1600)) and (platform.worldPos[0] <= (currentPos[0] + 1600)):
+				platform.rect.center = [800 -  (currentPos[0] - platform.worldPos[0]), 450  - (currentPos[1] - platform.worldPos[1])]	
+			self.drawGroup.add(platform)		
 		for platform in self.platforms:
-			#platformWorld = pygame.Rect((platform.rect.center[0] - platform.rect.width/2.0, platform.rect.center[1] + platform.rect.height/2.0),(
-				#platform.rect.width,platform.rect.height))
-			#if screen.colliderect(platformWorld):
 			if (platform.worldPos[0] >= (currentPos[0] - 1600)) and (platform.worldPos[0] <= (currentPos[0] + 1600)):
 				platform.rect.center = [800 -  (currentPos[0] - platform.worldPos[0]), 450  - (currentPos[1] - platform.worldPos[1])]
 				#print platform.rect.center[1]
@@ -140,6 +158,11 @@ class Level():
 			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
 				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
 				self.drawGroup.add(obj)
+		for obj in self.world.enemyObjects:
+			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
+				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
+				self.drawGroup.add(obj)		
+
 		self.drawGroup.draw(self.world.screen)
 
 	

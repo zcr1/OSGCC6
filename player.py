@@ -37,6 +37,7 @@ class Player(pygame.sprite.Sprite):
 		self.invulnDuration = 0
 		self.jumpCount = 0
 		self.jumpDuration = 10
+		self.onPlatform = False
 
 		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
@@ -172,6 +173,43 @@ class Player(pygame.sprite.Sprite):
 			collisionObj.kill()
 
 
+
+		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
+		if collisionObj:
+			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
+				self.jump = False
+				if collisionObj.direction[1] == 1:
+					self.jumpVel = -3
+				else:
+					self.jumpVel = 3
+				self.grounded = True
+				self.jumpCount = 0
+			elif newPos[1] > self.worldPos[1]: #platform moving left-right
+				if collisionObj.death == 1:
+					self.dead = True
+				elif newPos[1] > self.worldPos[1]:
+					self.jump = False
+					self.jumpVel = 0
+					self.grounded = True
+					self.jumpCount = 0
+					newPos[1] -= 1
+					#newPos[1] = copy.deepcopy(collisionObj.rect.top)
+				elif newPos[1] < self.worldPos[1] and not self.grounded:
+					print "a"
+					newPos[1] += 10
+					self.jumpVel = 0			
+			elif newPos[1] < self.worldPos[1] and collisionObj.moveY:
+				self.jump = False
+				#self.jumpVel = 0
+				self.grounded = True
+				self.jumpCount = 0
+			elif newPos[1] < self.worldPos[1]: #platform moving left-right
+				print "b"
+				newPos[1] += 10
+				self.jumpVel = 0			
+		else:
+			self.onPlatform = False
+
 		return newPos
 
 		
@@ -179,7 +217,7 @@ class Player(pygame.sprite.Sprite):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:
 			self.lastShot = 0
-			return Bean(self.rect.center, self.worldPos, self.direction, self.world)
+			return Bean(self.rect.center, self.worldPos, self.direction, self.world, False)
 		else:
 			self.lastShot += secs
 			return None

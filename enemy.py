@@ -1,5 +1,6 @@
 import pygame, os
 from pygame.locals import *
+from bean import *
 import copy
 import math
 
@@ -11,6 +12,7 @@ class Enemy(pygame.sprite.Sprite):
 	friction = .9
 	jumpDelay = 2
 	aggroDistance = 300
+	shotDelay = .5
 	
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
 	def __init__(self, pos, world, clock, type):
@@ -27,7 +29,13 @@ class Enemy(pygame.sprite.Sprite):
 		self.clock = clock
 		self.grounded = False
 		self.type = type
+		self.lastShot = 0
 
+
+		if type == 2:
+			self.shooter = True
+		else:
+			self.shooter = False
 		if type == 1:
 			self.jumper = True
 		else:
@@ -45,7 +53,10 @@ class Enemy(pygame.sprite.Sprite):
 	#do updates
 	def Update(self):
 		if self.aggro:
+			self.secs = self.world.clock.tick() / 1000.0
+			self.Fire()
 			self.updatePos()
+
 		else:
 			if math.fabs(self.world.player.worldPos[0] - self.worldPos[0]) < self.aggroDistance:
 				self.aggro = True
@@ -55,8 +66,17 @@ class Enemy(pygame.sprite.Sprite):
 					self.direction[0] = -1
 
 
+	def Fire(self):
+		if (self.secs + self.lastShot) > self.shotDelay:
+			self.lastShot = 0
+			self.world.enemyObjects.add(Bean(self.rect.center, self.worldPos, self.direction, self.world, True))
+		else:
+			self.lastShot += self.secs
+			return None
+
 
 	def updatePos(self):
+
 		if self.jumper: #jump every x seconds
 			self.deltaJump += self.clock.tick() / 1000.0
 			if self.deltaJump >= self.jumpDelay:
