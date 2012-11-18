@@ -97,6 +97,8 @@ class Enemy(pygame.sprite.Sprite):
 
 		if not self.grounded:
 			self.jumpVel -= self.world.gravity
+		else:
+			self.jumpVel = 0
 		
 		deltaX = self.direction[0] * self.speedInc
 		newPos = [self.worldPos[0] + deltaX, self.worldPos[1] - self.jumpVel] 

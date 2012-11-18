@@ -23,7 +23,7 @@ class Level():
 		for i in range (1, len(allLines)):
 			words = allLines[i].split(" ")
 
-			plat = Platform([(int)(words[0]),(int)(words[1])],words[2], words[3], (int)(words[4]))
+			plat = Platform([(int)(words[0]),(int)(words[1])],(int)(words[2]), (words[3]), (int)(words[4]))
 			if plat.moveX or plat.moveY:
 				self.movePlatforms.add(plat)
 			else:

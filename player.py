@@ -9,8 +9,8 @@ from sprite_strip_anim import SpriteStripAnim
 
 class Player(pygame.sprite.Sprite):
 
-	speedMax = 40 #10
-	speedInc = 6 #2
+	speedMax = 40#10
+	speedInc = 6#2
 	jumpSpeed = 12
 	friction = .9
 	shotDelay = .4
@@ -181,6 +181,8 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
 		if collisionObj:
+			if collisionObj.death == 1:
+				self.dead = True
 			if collisionObj.isFall():
 				collisionObj.Active()
 			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
