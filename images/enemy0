@@ -7,7 +7,7 @@
             <key>enemy0-1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{100,0},{100,100}}</string>
+                <string>{{0,0},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,7 +20,33 @@
             <key>enemy0-2.png</key>
             <dict>
                 <key>frame</key>
+                <string>{{100,0},{100,100}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
                 <string>{{0,0},{100,100}}</string>
+                <key>sourceSize</key>
+                <string>{100,100}</string>
+            </dict>
+            <key>enemy1-1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{0,100},{100,100}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,100}}</string>
+                <key>sourceSize</key>
+                <string>{100,100}</string>
+            </dict>
+            <key>enemy1-2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{100,100},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -38,9 +64,9 @@
             <key>realTextureFileName</key>
             <string>enemy0.png</string>
             <key>size</key>
-            <string>{256,128}</string>
+            <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:cc98b5f46b7cc1bdb6cf00cd0549a930$</string>
+            <string>$TexturePacker:SmartUpdate:36140cea3904abb3e8a902950f96c4aa$</string>
             <key>textureFileName</key>
             <string>enemy0.png</string>
         </dict>

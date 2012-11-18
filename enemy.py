@@ -1,6 +1,7 @@
 import pygame, os
 from pygame.locals import *
 from bean import *
+from sprite_strip_anim import SpriteStripAnim
 import copy
 import math
 
@@ -31,13 +32,24 @@ class Enemy(pygame.sprite.Sprite):
 		self.type = type
 		self.lastShot = 0
 
-
+		#0 = rolly gion' left
+		#1 = rolly goin' right
+		#3 = hoppy-ass dude 
+		self.strips = [SpriteStripAnim('images/enemy0.png', (0,0,100,100), 2, (16, 16, 16), True, 15),
+			SpriteStripAnim('images/enemy0.png', (0,100,100,100), 2, (16, 16, 16), True, 15),
+			SpriteStripAnim('images/enemy1.png', (0,0,100,100), 1, (16, 16, 16), True, 15)
+		]
+		self.enumState = self.enum(ROLLLEFT=0, ROLLRIGHT=1, JUMPER=2)
+		self.state = -1
+		if type == 0:
+			self.updateState(self.enumState.ROLLLEFT)
 		if type == 2:
 			self.shooter = True
 		else:
 			self.shooter = False
 		if type == 1:
 			self.jumper = True
+			self.updateState(self.enumState.JUMPER)
 		else:
 			self.jumper = False
 
@@ -108,7 +120,20 @@ class Enemy(pygame.sprite.Sprite):
 		if not self.grounded:
 			self.direction[0] = -self.direction[0]	
 
-		
+	def updateState(self, state):
+		if(self.state != state):
+			self.stateChanged = 1
+		self.state = state
+
+	def updateSpriteSheet(self):
+		n = (int)(self.state)
+
+ 		if (self.stateChanged==1):
+			self.strips[n].iter()
+			self.image = self.strips[n].next()
+			self.stateChanged = 0
+		else:
+			self.image = self.strips[(int)(self.state)].next()
 
 	def getCollisions(self, newPos, flag):
 		#y
