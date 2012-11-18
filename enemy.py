@@ -11,8 +11,8 @@ class Enemy(pygame.sprite.Sprite):
 	speedInc = 5
 	jumpSpeed = 12
 	friction = .9
-	jumpDelay = 2
-	aggroDistance = 400
+	jumpDelay = 1.25
+	aggroDistance = 600
 	shotDelay = .5
 	
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
@@ -31,6 +31,7 @@ class Enemy(pygame.sprite.Sprite):
 		self.grounded = False
 		self.type = type
 		self.lastShot = 0
+		self.shooter = False
 
 		#0 = rolly gion' left
 		#1 = rolly goin' right

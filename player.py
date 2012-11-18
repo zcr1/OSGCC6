@@ -36,6 +36,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.center = pos
 		self.worldPos = pos
 		self.direction = [0,0]
+		self.faceDir = [0,0]
 		self.jumpVel = 0
 		self.horizVel = 0
 		self.lastShot = 0
@@ -63,7 +64,7 @@ class Player(pygame.sprite.Sprite):
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMPLEFT=3, JUMPRIGHT=4, SHOOTL=5, SHOOTR=6)
 		self.state = -1
 		self.updateState(self.enumState.STAND)
-		self.hp = 20
+		self.hp = 5
 
 
 
@@ -80,6 +81,11 @@ class Player(pygame.sprite.Sprite):
 			self.invulnDuration = 0
 		self.parseKeys(keys)
 		self.updatePos()
+		if self.world.level.reieveCheckCollisionEnemy(self):
+			if not self.invulnDuration > 0:
+				self.hp -= 1
+				self.invulnDuration = self.invulnEnemyDuration
+
 
 
 
@@ -102,12 +108,14 @@ class Player(pygame.sprite.Sprite):
 			#self.updateState(self.enumState.RUNLEFT)
 		if keys[pygame.K_a]:
 			newDir[0] = -1
+			self.faceDir[0] = -1
 			self.updateState(self.enumState.RUNLEFT)
 			self.horizVel -= self.speedInc
 			if self.horizVel < -self.speedMax:
 				self.horizVel = -self.speedMax
 		elif keys[pygame.K_d]:
 			newDir[0] = 1
+			self.faceDir[0] = 1
 			self.updateState(self.enumState.RUNRIGHT)	
 			self.horizVel += self.speedInc
 			if self.horizVel > self.speedMax:
@@ -180,7 +188,15 @@ class Player(pygame.sprite.Sprite):
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
 			if newPos[1] < collisionObj.worldPos[1]:
+				#if collisionObj.type == 1:
+					#soundOb = pygame.mixer.Sound("sounds/robot-die.wav")
+					#soundOb.set_volume(1)
+					#chan = soundOb.play()
+					#while chan.get_sound() != None:
+					#	pass
+
 				collisionObj.kill()
+
 				self.jump = True
 				self.jumpVel = self.jumpSpeed
 			else:
@@ -188,10 +204,12 @@ class Player(pygame.sprite.Sprite):
 					self.hp -= 1
 					self.invulnDuration = self.invulnEnemyDuration
 
+		
+
 		collisionObj = self.world.level.checkItemCollision(self, newPos)
 		if collisionObj:
-			print collisionObj.worldPos
-			print self.worldPos
+			if collisionObj.type == 0: #+ hp
+				self.hp += 1
 			collisionObj.kill()
 
 
@@ -242,12 +260,12 @@ class Player(pygame.sprite.Sprite):
 		if (secs + self.lastShot) > self.shotDelay:
 			
 			self.lastShot = 0
-			if(self.direction[0] < 0):
+			if(self.faceDir[0] < 0):
 				self.updateState(self.enumState.SHOOTL)
 			else:
 				self.updateState(self.enumState.SHOOTR)
 			self.shootstatetimer = self.shotDisplayDelay
-			return Bean([self.rect.center[0], self.rect.center[1]-25], [self.worldPos[0], self.worldPos[1]-25], self.direction, self.world, False)
+			return Bean([self.rect.center[0], self.rect.center[1]-25], [self.worldPos[0], self.worldPos[1]-25], self.faceDir, self.world, False)
 
 		else:
 			self.lastShot += secs
@@ -277,7 +295,7 @@ class Player(pygame.sprite.Sprite):
  		if (self.stateChanged==1):
 			if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
 				self.state = self.enumState.JUMPLEFT
-			if(self.direction[0] > 0 and self.state == self.enumState.JUMPLEFT):
+			if(self.faceDir[0] > 0 and self.state == self.enumState.JUMPLEFT):
 				self.state = self.enumState.JUMPRIGHT
 			self.strips[n].iter()
 			self.image = self.strips[n].next()

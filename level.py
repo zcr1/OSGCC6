@@ -100,6 +100,17 @@ class Level():
 				return True
 		return None
 
+	def reieveCheckCollisionEnemy(self, player):
+		playerrect = copy.deepcopy(player.rect)
+		playerrect.center = player.worldPos
+		for obj in self.world.enemyObjects:
+			newrect = copy.deepcopy(obj.rect)
+			newrect.center = obj.worldPos
+			if newrect.colliderect(playerrect):
+				obj.kill()
+				return True
+		return False
+
 	#check collision between enemies and player (player may actually be enemy)
 	def checkEnemyCollision(self, player, newPos):
 		newrect = copy.deepcopy(player.rect)

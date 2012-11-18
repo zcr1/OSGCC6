@@ -17,14 +17,22 @@ def main():
 	level = Level(world)
 	world.addPlayer(player)
 	world.setLevel(level)
+	pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=4096)
 
+	pygame.mixer.music.load("sounds/game.mp3")
+	#pygame.mixer.music.play(-1)
+	pygame.mixer.music.set_volume(.3)
 	while True:
+
 		world.Update()
 		pygame.display.update()
 		clock.tick(FPS)
 
 
 def menuScreen():
+	pygame.mixer.music.load("sounds/menu.mp3")
+	pygame.mixer.music.play(-1)
+	pygame.mixer.music.set_volume(.4)
 	surface = pygame.display.set_mode((1600,900)) #0,6671875 and 0,(6) of HDd resoultion
 	surface.blit(background, backgroundRect)
 	f = pygame.font.Font(None, 128)

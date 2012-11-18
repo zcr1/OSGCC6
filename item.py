@@ -7,7 +7,7 @@ import math
 class Item(pygame.sprite.Sprite):
 
 
-	def __init__(self, pos , height, width, death):
+	def __init__(self, pos , height, width, type):
 		pygame.sprite.Sprite.__init__(self)
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/canOfBeans.png"
 		self.image = pygame.image.load(imgPath)
@@ -17,7 +17,9 @@ class Item(pygame.sprite.Sprite):
 		self.height = height;
 		self.width = width;
 
-		self.death = death
+		self.type = type
+		#0 = +hp
+		
 
 
 	def Update(self):
