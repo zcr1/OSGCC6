@@ -3,6 +3,7 @@ import pygame, os
 from pygame.locals import *
 from platform import *
 from enemy import *
+from item import *
 import copy
 import math
 
@@ -43,6 +44,20 @@ class Level():
 			enem = Enemy([x, y], self.world, pygame.time.Clock(), enemType)
 			self.enemies.add(enem)	
 
+		# Add items to level
+		item_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/datafiles/item.dat"
+		f = open(item_dat_path)
+
+		allLines = f.readlines()
+		self.items = pygame.sprite.Group()		
+
+		for i in range (1, len(allLines)):
+			words = allLines[i].split(" ")
+			x = (int)(words[0])
+			y = (int)(words[1])
+			ite = Item([x, y], words[2], words[3], words[4])
+			self.items.add(ite)
+
 
 	def Update(self):
 		for sprite in self.enemies:
@@ -60,6 +75,15 @@ class Level():
 			if newrect.colliderect(newPlat):
 				return platform
 		return None
+
+	#check collisions with items
+	def checkItemCollision(self, obj):
+		for item in self.items:
+			if item.rect.colliderect(obj.rect):
+				item.kill()
+				return True
+		return None 
+
 
 	#check collisions with enemy when shooting beans
 	def checkCollisionEnemy(self, obj):
@@ -109,6 +133,10 @@ class Level():
 			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
 				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
 				self.drawGroup.add(obj)	
+		for obj in self.items:
+			if (obj.worldPos[0] >= (currentPos[0] - 2000)) and (obj.worldPos[0] <= (currentPos[0] + 2000)):
+				obj.rect.center = [800 -  (currentPos[0] - obj.worldPos[0]), 450  - (currentPos[1] - obj.worldPos[1])]	
+				self.drawGroup.add(obj)
 		self.drawGroup.draw(self.world.screen)
 
 	
