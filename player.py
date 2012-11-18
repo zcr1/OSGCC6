@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
 
 		if self.invulnDuration < 0:
 			self.invulnDuration = 0
-		print self.invulnDuration
+		#print self.invulnDuration
 		self.parseKeys(keys)
 		self.updatePos()
 
@@ -100,9 +100,11 @@ class Player(pygame.sprite.Sprite):
 
 		if self.horizVel < 0:
 			self.horizVel =  math.ceil(self.horizVel * self.friction)
+
 		else:
 			self.horizVel = self.horizVel * self.friction	
-
+		if(abs(self.horizVel) < 1):
+			self.horizVel = 0
 		newPos = [self.worldPos[0] + deltaHoriz, self.worldPos[1]]
 
 		if not self.grounded:
@@ -127,6 +129,7 @@ class Player(pygame.sprite.Sprite):
 				self.jump = False
 				self.jumpVel = 0
 				self.grounded = True
+				self.updateState(self.enumState.STAND)
 				#newPos[1] = copy.deepcopy(collisionObj.rect.top)
 			elif newPos[1] < self.worldPos[1] and not self.grounded:
 				newPos[1] += 10
@@ -170,7 +173,14 @@ class Player(pygame.sprite.Sprite):
 
 	def updateSpriteSheet(self):
 		n = (int)(self.state)
+		print self.horizVel
+		if(self.grounded == True and self.horizVel == 0):
+				self.state = self.enumState.STAND
 		if (self.stateChanged==1):
+			if(self.grounded == False and (self.state == self.enumState.RUNLEFT or self.state == self.enumState.RUNRIGHT)):
+				self.state = self.enumState.JUMPLEFT
+			if(self.direction[0] > 0 and self.state == self.enumState.JUMPLEFT):
+				self.state = self.enumState.JUMPRIGHT
 			self.strips[n].iter()
 			self.image = self.strips[n].next()
 			self.stateChanged = 0

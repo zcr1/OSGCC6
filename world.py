@@ -10,6 +10,9 @@ class World():
 		self.players = pygame.sprite.Group()
 		self.player = None
 		self.clock = pygame.time.Clock()
+		bgPath1 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/background1.png"
+		bgPath2 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/background2.png"
+		self.bg1 = pygame.image.load(bgPath1).convert()
 
 	#gets called by main game loop to do everything
 	def Update(self):
@@ -35,7 +38,9 @@ class World():
 
 	#do all the drawing
 	def Draw(self):
-		self.screen.fill(pygame.Color(255,255,255))
+
+		#self.screen.fill(pygame.Color(255,255,255))
+		self.screen.blit(self.bg1,(0,0))
 		self.level.Draw()
 		self.players.draw(self.screen)
 		self.drawGUI()
