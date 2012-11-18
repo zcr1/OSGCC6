@@ -8,11 +8,16 @@ class World():
 		self.screen = pygame.display.set_mode(self.size)
 		self.objects = pygame.sprite.Group() #hold random objects/sprites
 		self.players = pygame.sprite.Group()
+		self.player = None
+		self.clock = pygame.time.Clock()
 
 	#gets called by main game loop to do everything
 	def Update(self):
 		self.getEvents()
 		self.Draw()
+		for obj in self.objects:
+			if not obj.Update():
+				obj.kill()
 
 
 	#do all the drawing
@@ -20,6 +25,7 @@ class World():
 		self.screen.fill(pygame.Color(255,255,255))
 		self.level.Draw()
 		self.players.draw(self.screen)
+		self.objects.draw(self.screen)
 
 	def getEvents(self):
 		for event in pygame.event.get():
@@ -28,12 +34,12 @@ class World():
 				sys.exit()
 		keystate =  pygame.key.get_pressed()
 		if keystate:
-			for player in self.players:
-				player.Update(keystate)
+			self.player.Update(keystate)
 
 
 	def addPlayer(self, player):
 		self.players.add(player)
+		self.player = player
 
 	def setLevel(self, level):
 		self.level = level
