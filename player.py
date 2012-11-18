@@ -7,7 +7,13 @@ import math
 import spritesheet
 from sprite_strip_anim import SpriteStripAnim
 
+
+
+
 class Player(pygame.sprite.Sprite):
+
+
+
 
 	speedMax = 40#10
 	speedInc = 6#2
@@ -18,6 +24,9 @@ class Player(pygame.sprite.Sprite):
 	shotDisplayDelay = .5
 	invulnEnemyDuration = 1.0
 	jumpGap = .25
+
+
+
 
 	def __init__(self, pos, world):
 		pygame.sprite.Sprite.__init__(self)
@@ -56,6 +65,9 @@ class Player(pygame.sprite.Sprite):
 		self.updateState(self.enumState.STAND)
 		self.hp = 20
 
+
+
+
 	#do updates
 	def Update(self, keys):
 		secs = self.clock.tick()/1000.0
@@ -68,6 +80,7 @@ class Player(pygame.sprite.Sprite):
 			self.invulnDuration = 0
 		self.parseKeys(keys)
 		self.updatePos()
+
 
 
 	def parseKeys(self, keys):
@@ -106,6 +119,8 @@ class Player(pygame.sprite.Sprite):
 
 		self.direction = copy.deepcopy(newDir)
 
+
+
 	def updatePos(self):
 		diagSpecial = 1	
 		deltaHoriz = self.horizVel * diagSpecial  * self.friction
@@ -131,6 +146,9 @@ class Player(pygame.sprite.Sprite):
 
 		self.worldPos = newPos
 		self.updateSpriteSheet()
+
+
+
 
 	def getCollisions(self, newPos):
 		#y direction
@@ -223,16 +241,21 @@ class Player(pygame.sprite.Sprite):
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:
+			
+			self.lastShot = 0
 			if(self.direction[0] < 0):
 				self.updateState(self.enumState.SHOOTL)
 			else:
 				self.updateState(self.enumState.SHOOTR)
 			self.shootstatetimer = self.shotDisplayDelay
-			self.lastShot = 0
 			return Bean([self.rect.center[0], self.rect.center[1]-25], [self.worldPos[0], self.worldPos[1]-25], self.direction, self.world, False)
+
 		else:
 			self.lastShot += secs
 			return None
+
+
+
 
 	def updateState(self, state):
 		if(self.shootstatetimer > 0):
@@ -240,6 +263,9 @@ class Player(pygame.sprite.Sprite):
 		if(self.state != state):
 			self.stateChanged = 1
 		self.state = state
+
+
+
 
 	def updateSpriteSheet(self):
 		n = (int)(self.state)
@@ -259,6 +285,9 @@ class Player(pygame.sprite.Sprite):
 			self.stateChanged = 0
 		else:
 			self.image = self.strips[(int)(self.state)].next()
+
+
+
 
 	def enum(*sequential, **named):
 		enums = dict(zip(sequential, range(len(sequential))), **named)
