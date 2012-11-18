@@ -21,18 +21,21 @@ class Platform(pygame.sprite.Sprite):
 		self.worldPos = pos
 		self.height = height
 		self.width = width
-		self.death = (int)death
+		self.death = (int)(death)
 		self.currDisplacement = 0
 		self.moveX = False
 		self.moveY = False
-
+		self.direction = [0,0]
 		if move == 1:
 			self.moveX = True
 			self.direction = [1,0]
 		elif move == 2:
 			self.moveY = True
 			self.direction = [0,1]
-
+		elif move == 3:
+			self.moveX = True
+			self.moveY = True
+			self.direction = [1,1]
 
 	def Update(self):
 		pass
