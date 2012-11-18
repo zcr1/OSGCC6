@@ -7,9 +7,11 @@ import math
 class Platform(pygame.sprite.Sprite):
 
 
-	def __init__(self, pos , height, width, death):
+	def __init__(self, pos , height, width, death, number):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/temp-platform.png"
+		filepath = "/osgcc/images/newplatform" + number + ".png"
+		print filepath
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
