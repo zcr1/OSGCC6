@@ -21,7 +21,8 @@ class Level():
 		self.drawGroup = pygame.sprite.Group() #which sprties are in view to draw
 		self.movePlatforms = pygame.sprite.Group()
 		self.bg1 = Background("background1.png", "background2.png")
-
+		self.bg2 = Background("background_2-1.png", "background_2-2.png")
+		self.fg = Background("foreground1.png", "foreground1.png")
 		for i in range (1, len(allLines)):
 			words = allLines[i].split(" ")
 
@@ -146,6 +147,7 @@ class Level():
 	def Draw(self):
 		currentPos = copy.deepcopy(self.world.player.worldPos) #players current worldPos
 		self.bg1.Draw(self.world.screen)
+		self.bg2.Draw(self.world.screen)
 		self.drawGroup.empty()
 		#screen = pygame.Rect((currentPos[0] - 800,currentPos[1] + 450),(800,450))
 		for platform in self.movePlatforms:

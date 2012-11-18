@@ -11,9 +11,6 @@ class World():
 		self.players = pygame.sprite.Group()
 		self.player = None
 		self.clock = pygame.time.Clock()
-		bgPath1 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/background1.png"
-		bgPath2 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/background2.png"
-		self.bg1 = pygame.image.load(bgPath1).convert()
 
 		self.playerFlip = True
 
@@ -81,6 +78,7 @@ class World():
 
 		if self.playerFlip:
 			self.players.draw(self.screen)
+		self.level.fg.Draw(self.screen)
 		self.drawGUI()
 
 
