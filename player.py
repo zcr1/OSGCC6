@@ -13,10 +13,12 @@ from sprite_strip_anim import SpriteStripAnim
 class Player(pygame.sprite.Sprite):
 
 
-
-
-	speedMax = 40#10
-	speedInc = 6#2
+	speedMax = 10
+	speedInc = 2
+	maxJumps = 2
+	#maxJumps = 20
+	#speedMax = 20
+	#speedInc = 5
 	jumpSpeed = 12
 	friction = .9
 	shotDelay = .4
@@ -24,6 +26,7 @@ class Player(pygame.sprite.Sprite):
 	shotDisplayDelay = .5
 	invulnEnemyDuration = 1.0
 	jumpGap = .25
+	gravyVent = 20
 
 
 
@@ -84,6 +87,8 @@ class Player(pygame.sprite.Sprite):
 		if self.world.level.reieveCheckCollisionEnemy(self):
 			if not self.invulnDuration > 0:
 				self.hp -= 1
+				if self.hp == 0:
+					self.dead = True
 				self.invulnDuration = self.invulnEnemyDuration
 
 
@@ -96,7 +101,7 @@ class Player(pygame.sprite.Sprite):
 			if self.jumpDuration > self.jumpGap:
 				self.jumpDuration = 0
 				self.jumpCount += 1
-				if self.jumpCount < 20:
+				if self.jumpCount <= self.maxJumps:
 					self.jump = True
 					self.jumpVel = self.jumpSpeed
 					newDir[1] = -1
@@ -164,6 +169,9 @@ class Player(pygame.sprite.Sprite):
 		if collisionObj:
 			if collisionObj.death == 1:
 				self.dead = True
+			elif collisionObj.type == 4:
+				self.jumpVel =+ self.gravyVent
+				self.jumpCount = 0
 			elif newPos[1] > self.worldPos[1]:
 				self.jump = False
 				self.jumpVel = 0
@@ -180,6 +188,9 @@ class Player(pygame.sprite.Sprite):
 		if collisionObj and not self.grounded:
 			if collisionObj.death == 1:
 				self.dead = True
+			elif collisionObj.type == 4:
+				self.jumpVel =+ 15
+				self.jumpCount = 0
 			elif newPos[0] > self.worldPos[0]:
 				newPos[0] -= 10
 			elif newPos[0] < self.worldPos[0]:
@@ -187,7 +198,7 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
-			if newPos[1] < collisionObj.worldPos[1]:
+			if newPos[1] < collisionObj.worldPos[1] and not self.grounded:
 				#if collisionObj.type == 1:
 					#soundOb = pygame.mixer.Sound("sounds/robot-die.wav")
 					#soundOb.set_volume(1)
@@ -202,6 +213,8 @@ class Player(pygame.sprite.Sprite):
 			else:
 				if not self.invulnDuration > 0:
 					self.hp -= 1
+					if self.hp == 0:
+						self.dead = True
 					self.invulnDuration = self.invulnEnemyDuration
 
 		
@@ -210,6 +223,8 @@ class Player(pygame.sprite.Sprite):
 		if collisionObj:
 			if collisionObj.type == 0: #+ hp
 				self.hp += 1
+				if self.hp == 0:
+					self.dead = True
 			collisionObj.kill()
 
 

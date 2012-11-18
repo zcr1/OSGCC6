@@ -1,4 +1,4 @@
-platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1=horiz])
+platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1=horiz, 3=both, 4=falling])
 800 525 0 01 0
 1200 525 0 02 0 
 1600 525 0 01 0
@@ -23,9 +23,9 @@ platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1
 6200 1400 0 01 2
 7000 600 0 01 2
 7000 1400 0 01 2
-6200 1000 1 08 2
-6600 1000 1 08 2
-7000 1000 1 08 2
+6200 800 1 08 2
+6600 800 1 08 2
+7000 800 1 08 2
 7000 2400 0 01 0
 7400 2400 1 09 0
 7800 2400 0 01 0
@@ -34,3 +34,9 @@ platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1
 9000 2400 0 05 2
 9400 2400 0 05 2
 9800 2400 0 05 2
+10300 2700 0 01 4
+10600 2100 0 01 4
+10900 1500 0 01 4 
+11500 1000 0 04 1
+11600 1000 1 09 0
+11900 1000 0 04 1

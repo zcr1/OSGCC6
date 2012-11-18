@@ -3,7 +3,7 @@ import os
 
 class World():
 	size = width, height = 1600, 900
-	gravity = .3
+	gravity = .4
 	def __init__(self):
 		self.screen = pygame.display.set_mode(self.size)
 		self.objects = pygame.sprite.Group() #hold random objects/sprites
@@ -22,7 +22,7 @@ class World():
 		self.getEvents()
 		if self.player.dead:
 			self.gameOver()
-			return
+			return -1
 
 		self.Draw()
 		self.level.Update()
@@ -41,6 +41,8 @@ class World():
 		fontobj = pygame.font.Font(None,80)
 		msg = fontobj.render("YOU ARE LOSE", 1, (0,0,0))
 		self.screen.blit(msg,[700,450], area=None, special_flags=0)
+		pygame.display.update()
+		#pygame.time.delay(3000)
 
 	#do all the drawing
 	def Draw(self):

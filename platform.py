@@ -28,6 +28,7 @@ class Platform(pygame.sprite.Sprite):
 		self.active = False
 		self.acceleration = 1
 		self.type = move
+		self.gravyVent = False
 		if move == 1:
 			self.moveX = True
 			self.direction = [1,0]
@@ -38,16 +39,15 @@ class Platform(pygame.sprite.Sprite):
 			self.moveX = True
 			self.moveY = True
 			self.direction = [1,1]
-		elif move == 4: #falling
-			self.moveY = True
-			self.direction = [0,0]
-			self.maxDisplacement = 4000
+		elif move == 4: #vent of gravy
+			self.gravyVent = True
 
 	def Update(self):
 		pass
 
 	def isFall(self):
-		return self.type == 4
+		if self.type == 4:
+			return True
 
 	def Active(self):
 		self.direction = [0,1]

@@ -149,6 +149,8 @@ class Enemy(pygame.sprite.Sprite):
 		if collisionObj:
 			if collisionObj.death == 1:
 				self.dead = True
+			elif collisionObj.type == 4:
+				self.jumpVel =+ 15
 			elif newPos[1] > self.worldPos[1]:
 				self.jump = False
 				self.jumpVel = 0
@@ -166,6 +168,8 @@ class Enemy(pygame.sprite.Sprite):
 			if collisionObj and not self.grounded:
 				if collisionObj.death == 1:
 					self.dead = True
+				elif collisionObj.type == 4:
+					self.jumpVel =+ 15
 				elif newPos[0] > self.worldPos[0]:
 					newPos[0] -= 10
 				elif newPos[0] < self.worldPos[0]:

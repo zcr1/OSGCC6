@@ -19,12 +19,18 @@ def main():
 	world.setLevel(level)
 	pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=4096)
 
-	pygame.mixer.music.load("sounds/game.mp3")
+	#pygame.mixer.music.load("sounds/game.mp3")
 	#pygame.mixer.music.play(-1)
-	pygame.mixer.music.set_volume(.3)
+	#pygame.mixer.music.set_volume(.3)
 	while True:
+		if world.Update() == -1:
+			pygame.time.delay(3000)
+			world = World()
+			player = Player([800,450], world)
+			level = Level(world)
+			world.addPlayer(player)
+			world.setLevel(level)	
 
-		world.Update()
 		pygame.display.update()
 		clock.tick(FPS)
 

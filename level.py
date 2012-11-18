@@ -58,7 +58,7 @@ class Level():
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			ite = Item([x, y], words[2], words[3], words[4])
+			ite = Item([x, y], words[2], words[3], (int)(words[4]))
 			self.items.add(ite)
 
 
