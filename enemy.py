@@ -222,7 +222,8 @@ class Enemy(pygame.sprite.Sprite):
 			if collisionObj:
 				self.direction[0] = -self.direction[0]
 
-
+		if newPos[1] > 3000:
+			self.kill()
 		return newPos
 
 

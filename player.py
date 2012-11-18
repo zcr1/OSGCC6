@@ -13,12 +13,12 @@ from sprite_strip_anim import SpriteStripAnim
 class Player(pygame.sprite.Sprite):
 
 
-	speedMax = 10
-	speedInc = 2
-	maxJumps = 2
+	#speedMax = 10
+	#speedInc = 2
+	maxJumps = 200
 	#maxJumps = 20
-	#speedMax = 20
-	#speedInc = 5
+	speedMax = 20
+	speedInc = 7
 	jumpSpeed = 12
 	friction = .9
 	shotDelay = .4
@@ -56,6 +56,7 @@ class Player(pygame.sprite.Sprite):
 		self.onPlatform = False
 		self.delayFall = 0
 		self.platformCount = 0
+		self.win = False
 
 		self.clock = pygame.time.Clock()
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
@@ -128,6 +129,9 @@ class Player(pygame.sprite.Sprite):
 			self.horizVel += self.speedInc
 			if self.horizVel > self.speedMax:
 				self.horizVel = self.speedMax
+		if keys[pygame.K_ESCAPE]:
+			pygame.display.quit()
+			sys.exit() 
 		if keys[pygame.K_SPACE]:
 			bean = self.Fire()
 			if bean:
@@ -161,8 +165,11 @@ class Player(pygame.sprite.Sprite):
 		newPos = self.getCollisions(newPos)
 		self.world.level.bg1.updatePos(newPos[0]-self.worldPos[0], newPos[1]-self.worldPos[1], .1)
 		self.world.level.bg2.updatePos(newPos[0]-self.worldPos[0], newPos[1]-self.worldPos[1], .4)
-		self.world.level.fg.updatePos(newPos[0]-self.worldPos[0], newPos[1]-self.worldPos[1], 1.2)
+		self.world.level.fg.updatePos(newPos[0]-self.worldPos[0], newPos[1]-self.worldPos[1], 1.05)
 		self.worldPos = newPos
+
+		if self.worldPos[1] > 4000:
+			self.dead = True
 		self.updateSpriteSheet()
 
 
@@ -171,7 +178,9 @@ class Player(pygame.sprite.Sprite):
 	def getCollisions(self, newPos):
 		#y direction
 		collisionObj = self.world.checkCollision(self, [self.worldPos[0],newPos[1]])
-		if collisionObj:
+		if collisionObj and not collisionObj.type == 70:
+			if collisionObj.type == 69:
+				self.win = True
 			if collisionObj.death == 1:
 				self.dead = True
 			elif collisionObj.type == 4:
@@ -191,7 +200,9 @@ class Player(pygame.sprite.Sprite):
 			self.grounded = False
 		#x  direction
 		collisionObj = self.world.checkCollision(self, [newPos[0], self.worldPos[1]])
-		if collisionObj and not self.grounded:
+		if collisionObj and not self.grounded  and not collisionObj.type == 70:
+			if collisionObj.type == 69:
+				self.win = True
 			if collisionObj.death == 1:
 				self.dead = True
 			elif collisionObj.type == 4:
@@ -204,7 +215,7 @@ class Player(pygame.sprite.Sprite):
 				newPos[0] += 10
 
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
-		if collisionObj:
+		if collisionObj and not collisionObj.type == 70:
 			if newPos[1] < collisionObj.worldPos[1] and not self.grounded:
 				self.damage.play()
 				collisionObj.kill()
@@ -221,7 +232,7 @@ class Player(pygame.sprite.Sprite):
 		
 
 		collisionObj = self.world.level.checkItemCollision(self, newPos)
-		if collisionObj:
+		if collisionObj and not collisionObj.type == 70:
 			if collisionObj.type == 0: #+ hp
 				self.hp += 1
 				if self.hp == 0:
@@ -232,7 +243,9 @@ class Player(pygame.sprite.Sprite):
 
 
 		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
-		if collisionObj:
+		if collisionObj and not collisionObj.type == 70:
+			if collisionObj.type == 69:
+				self.win = True
 			self.onPlatform = True
 			if collisionObj.death == 1:
 				self.dead = True

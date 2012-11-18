@@ -44,3 +44,6 @@ platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1
 13000 1000 0 02 0
 13400 1000 0 02 0
 13800 1000 0 02 0
+12800 700 0 70 70
+13800 930 0 69 69
+13800 930 0 68 69

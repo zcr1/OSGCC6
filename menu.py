@@ -19,7 +19,7 @@ if not pygame.display.get_init():
 if not pygame.font.get_init():
     pygame.font.init()
     
-background = pygame.image.load("images/menu_background.jpg")
+background = pygame.image.load("images/titlescreen.png")
 backgroundRect = background.get_rect()
 
 class Menu:

@@ -23,6 +23,9 @@ class World():
 		if self.player.dead:
 			self.gameOver()
 			return -1
+		if self.player.win:
+			self.gameWon()
+			return -1
 
 		self.Draw()
 		self.level.Update()
@@ -34,6 +37,13 @@ class World():
 				obj.kill()
 
 
+
+	def gameWon(self):
+		background = pygame.image.load("images/winscreen.png")
+		backgroundRect = background.get_rect()
+		self.screen.blit(background, backgroundRect)
+		pygame.display.update()
+		pygame.time.delay(8000)
 
 	def gameOver(self):
 		while self.gameOverCount < 100:
