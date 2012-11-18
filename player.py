@@ -124,7 +124,7 @@ class Player(pygame.sprite.Sprite):
 		secs = self.world.clock.tick() / 1000.0
 		if (secs + self.lastShot) > self.shotDelay:
 			self.lastShot = 0
-			return Bean(self.rect.center, self.worldPos, self.direction)
+			return Bean(self.rect.center, self.worldPos, self.direction, self.world)
 		else:
 			self.lastShot += secs
 			return None

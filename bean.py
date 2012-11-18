@@ -9,7 +9,7 @@ class Bean(pygame.sprite.Sprite):
 	speed = 20
 	durationMax = 1
 
-	def __init__(self, localPos, worldPos, direction):
+	def __init__(self, localPos, worldPos, direction, world):
 		pygame.sprite.Sprite.__init__(self)
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/bean.png"
 		self.image = pygame.image.load(imgPath)
@@ -19,6 +19,7 @@ class Bean(pygame.sprite.Sprite):
 		self.direction = copy.deepcopy(direction)
 		self.duration = 0
 		self.clock = pygame.time.Clock()
+		self.world = world
 		if self.direction[0] == 0:
 			self.direction[0] = 1;
 		self.direction[1] = 0
@@ -31,6 +32,8 @@ class Bean(pygame.sprite.Sprite):
 		if self.duration > self.durationMax:
 			return False
 		self.updatePos()
+		if self.world.level.checkCollisionEnemy(self):
+			self.kill()
 
 		return True
 	def updatePos(self):

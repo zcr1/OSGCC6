@@ -58,6 +58,16 @@ class Level():
 				return platform
 		return None
 
+	def checkCollisionEnemy(self, obj):
+		for enemy in self.enemies:
+			#newRec = copy.deepcopy(enemy.rect)
+			#newRec.center = enemy.worldPos	
+			if enemy.rect.colliderect(obj.rect):
+			#if newRec.colliderect(obj.rect):
+				enemy.kill()
+				return True
+		return None
+
 	def Draw(self):
 		currentPos = copy.deepcopy(self.world.player.worldPos) #players current worldPos
 		self.drawGroup.empty()
