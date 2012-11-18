@@ -14,6 +14,7 @@ def main():
 	level = Level()
 	world.addPlayer(player)
 	world.setLevel(level)
+
 	while True:
 		world.Update()
 		pygame.display.update()
