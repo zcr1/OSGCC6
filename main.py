@@ -20,7 +20,7 @@ def main():
 	world.setLevel(level)
 	 
 
-	pygame.mixer.music.load("sounds/game.mp3")
+	pygame.mixer.music.load("sounds/game_01.ogg")
 	pygame.mixer.music.play(-1)
 	pygame.mixer.music.set_volume(.3)
 	while True:
@@ -37,7 +37,8 @@ def main():
 
 def menuScreen():
 	pygame.init()
-	pygame.mixer.music.load("sounds/menu.mp3")
+	pygame.mixer.init()
+	pygame.mixer.music.load("sounds/menu_02.ogg")
 	pygame.mixer.music.play(-1)
 	pygame.mixer.music.set_volume(.4)
 	surface = pygame.display.set_mode((1600,900)) #0,6671875 and 0,(6) of HDd resoultiondd
