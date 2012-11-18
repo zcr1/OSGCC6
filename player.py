@@ -4,6 +4,8 @@ from pygame.locals import *
 from bean import *
 import copy
 import math
+import spritesheet
+from sprite_strip_anim import SpriteStripAnim
 
 class Player(pygame.sprite.Sprite):
 
@@ -24,10 +26,17 @@ class Player(pygame.sprite.Sprite):
 		self.jumpVel = 0
 		self.horizVel = 0
 		self.lastShot = 0
+		self.statechanged = 0
 		self.world = world
+		self.strips = [SpriteStripAnim('images/chickenrun.png', (0,0,100,100), 6, 0, True, 5),
+			SpriteStripAnim('images/chickenrun.png', (0,0,100,100), 6, 0, True, 5),
+ 			SpriteStripAnim('images/chickenrun.png', (0,0,100,100), 6, 0, True, 5),
+ 			SpriteStripAnim('images/chickenrun.png', (0,0,100,100), 6, 0, True, 5)
+		]
 		#http://stackoverflow.com/questions/36932/whats-the-best-way-to-implement-an-enum-in-python
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
-		self.state = self.enumState.STAND
+		self.state = -1
+		self.updateState(self.enumState.STAND)
 		self.HP = 10
 
 	#do updates
@@ -41,20 +50,20 @@ class Player(pygame.sprite.Sprite):
 		if keys[pygame.K_w]:
 			newDir[1] = -1
 			self.jumpVel = self.jumpSpeed
-			self.state = self.enumState.JUMP
+			self.updateState(self.enumState.JUMP)
 		elif keys[pygame.K_s]:
 			pass
 			#newDir[1] = 1
-			#self.state = self.enumState.RUNLEFT
+			#self.updateState(self.enumState.RUNLEFT)
 		if keys[pygame.K_a]:
 			newDir[0] = -1
-			self.state = self.enumState.RUNLEFT
+			self.updateState(self.enumState.RUNLEFT)
 			self.horizVel -= self.speedInc
 			if self.horizVel < -self.speedMax:
 				self.horizVel = -self.speedMax
 		elif keys[pygame.K_d]:
 			newDir[0] = 1
-			self.state = self.enumState.RUNRIGHT	
+			self.updateState(self.enumState.RUNRIGHT)	
 			self.horizVel += self.speedInc
 			if self.horizVel > self.speedMax:
 				self.horizVel = self.speedMax
@@ -81,6 +90,7 @@ class Player(pygame.sprite.Sprite):
 
 		self.rect.center = newPos
 		self.worldPos = newPos
+		self.updateSpriteSheet()
 		
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
@@ -90,6 +100,21 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.lastShot += secs
 			return None
+
+	def updateState(self, state):
+		self.enumsSate = state
+		if(self.state != state):
+			self.stateChanged = 1
+
+
+	def updateSpriteSheet(self):
+		n = (int)(self.state)
+		if (self.stateChanged==1):
+			self.strips[n].iter()
+			self.image = self.strips[n].next()
+			self.stateChanged = 0
+		else:
+			self.image = self.strips[(int)(self.state)].next()
 
 	def enum(*sequential, **named):
 		enums = dict(zip(sequential, range(len(sequential))), **named)
