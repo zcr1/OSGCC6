@@ -36,10 +36,12 @@ class Player(pygame.sprite.Sprite):
 			SpriteStripAnim('images/chickenrunL.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenrun2.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenjump.png', (0,0,100,100), 2, (16, 16, 16), True, 5),
- 			SpriteStripAnim('images/chickenjump.png', (0,0,100,100), 2, (16, 16, 16), True, 5)
+ 			SpriteStripAnim('images/chickenjumpR.png', (0,0,100,100), 2, (16, 16, 16), True, 5),
+ 			SpriteStripAnim('images/chickenspit.png', (0,0,100,100), 1, (16, 16, 16), True, 5),
+ 			SpriteStripAnim('images/chickenspit.png', (100,0,100,100), 1, (16, 16, 16), True, 5)
 		]
 		#http://stackoverflow.com/questions/36932/whats-the-best-way-to-implement-an-enum-in-python
-		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
+		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMPLEFT=3, JUMPRIGHT=4, SHOOTL=5, SHOOTR=6)
 		self.state = -1
 		self.updateState(self.enumState.STAND)
 		self.hp = 20
