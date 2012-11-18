@@ -27,7 +27,6 @@ class Bean(pygame.sprite.Sprite):
 
 	def Update(self):
 		self.duration += self.clock.tick() / 1000.0
-		print self.duration
 		if self.duration > self.durationMax:
 			return False
 		self.updatePos()
