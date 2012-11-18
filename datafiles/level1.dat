@@ -1,3 +1,5 @@
 platforms:  (x, y, height, width, collideS, collideT, collideB)
 200 200 30 400 1 1 1
 300 500 30 400 1 1 1
+700 800 30 400 1 1 1
+900 200 30 400 1 1 1
