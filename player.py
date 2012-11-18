@@ -52,10 +52,8 @@ class Player(pygame.sprite.Sprite):
 	#do updates
 	def Update(self, keys):
 		self.invulnDuration -= self.clock.tick()/1000.0
-
 		if self.invulnDuration < 0:
 			self.invulnDuration = 0
-		print self.invulnDuration
 		self.parseKeys(keys)
 		self.updatePos()
 
@@ -145,6 +143,15 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 		if collisionObj:
+			if newPos[0] > self.worldPos[0]:
+				if (newPos[0] - self.worldPos[0]) > 10:
+					collisionObj.kill()
+					self.jump = True
+					self.jumpVel = self.jumpSpeed
+				else:
+					if not self.invulnDuration > 0:	
+						self.hp -= 1
+						self.invulnDuration = self.invulnEnemyDuration
 			if not self.invulnDuration > 0:
 				self.hp -= 1
 				self.invulnDuration = self.invulnEnemyDuration

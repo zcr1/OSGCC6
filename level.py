@@ -37,7 +37,9 @@ class Level():
 			words = allLines[i].split(" ")
 			x = (int)(words[0])
 			y = (int)(words[1])
-			enemType = (int)(words[2])
+			height = (int)(words[2])
+			width = (int)(words[3])
+			enemType = (int)(words[4])
 			enem = Enemy([x, y], self.world, pygame.time.Clock(), enemType)
 			self.enemies.add(enem)	
 
@@ -68,18 +70,18 @@ class Level():
 				return True
 		return None
 
-	#check collision between enemies and player
+	#check collision between enemies and player (player may actually be enemy)
 	def checkEnemyCollision(self, player, newPos):
 		newrect = copy.deepcopy(player.rect)
 		newrect.center = newPos		
 		for enemy in self.enemies:
-			#print enemy.worldPos[0] - newPos[0]
-			#print enemy.worldPos[1] - newPos[1]
-			enemyrect = copy.deepcopy(enemy.rect)
-			enemyrect.center = enemy.worldPos
-			#if enemy.rect.colliderect(newrect):
-			if enemyrect.colliderect(newrect):
-				return True
+			if enemy == player:
+				pass
+			else:
+				enemyrect = copy.deepcopy(enemy.rect)
+				enemyrect.center = enemy.worldPos
+				if enemyrect.colliderect(newrect):
+					return enemy
 		return None
 
 

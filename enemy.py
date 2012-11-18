@@ -6,12 +6,13 @@ import math
 class Enemy(pygame.sprite.Sprite):
 
 	speedMax = 20
-	speedInc = 2
+	speedInc = 5
 	jumpSpeed = 12
 	friction = .9
 	jumpDelay = 2
 	aggroDistance = 300
 	
+	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
 	def __init__(self, pos, world, clock, type):
 		pygame.sprite.Sprite.__init__(self)
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/enemy.png"
@@ -26,7 +27,10 @@ class Enemy(pygame.sprite.Sprite):
 		self.clock = clock
 		self.grounded = False
 
-		self.jumper = True
+		if type == 1:
+			self.jumper = True
+		else:
+			self.jumper = False
 
 		self.jump = False
 		self.deltaJump = 0
@@ -39,11 +43,16 @@ class Enemy(pygame.sprite.Sprite):
 
 	#do updates
 	def Update(self):
-
-		if self.world.player.worldPos[0] - self.worldPos[0] < self.aggroDistance:
-			self.aggro = True
 		if self.aggro:
 			self.updatePos()
+		else:
+			if math.fabs(self.world.player.worldPos[0] - self.worldPos[0]) < self.aggroDistance:
+				self.aggro = True
+				if self.world.player.worldPos[0] > self.worldPos[0]:
+					self.direction[0] = 1
+				else:
+					self.direction[0] = -1
+
 
 
 	def updatePos(self):
@@ -56,16 +65,37 @@ class Enemy(pygame.sprite.Sprite):
 		if not self.grounded:
 			self.jumpVel -= self.world.gravity
 		
-		newPos = [self.worldPos[0] + self.speedInc, self.worldPos[1] - self.jumpVel] 
+		deltaX = self.direction[0] * self.speedInc
+		newPos = [self.worldPos[0] + deltaX, self.worldPos[1] - self.jumpVel] 
 
-		newPos = self.getCollisions(newPos)
+		flag = False
+		newPos = self.getCollisions(newPos, flag)
 		
-
 		self.worldPos = newPos
+
+		if not self.jumper and self.grounded:
+			self.simulateAhead()
+
+
+	def simulateAhead(self):
+		
+		deltaX = self.direction[0] * self.speedInc * 3
+		newPos = [self.worldPos[0] + deltaX, self.worldPos[1] - self.jumpVel] 
+		flag = True
+		newPos = self.getCollisions(newPos, flag)
+		#if newPos[1] != self.worldPos[1]:
+		if not self.grounded:
+			print "ungrounded"
+			self.direction[0] = -self.direction[0]	
+
 		
 
-	def getCollisions(self, newPos):
-		collisionObj = self.world.checkCollision(self, [self.worldPos[0],newPos[1]])
+	def getCollisions(self, newPos, flag):
+		#y
+		if flag:
+			collisionObj = self.world.checkCollision(self, [newPos[0],newPos[1]])
+		else:
+			collisionObj = self.world.checkCollision(self, [self.worldPos[0],newPos[1]])
 		if collisionObj:
 			if collisionObj.death == 1:
 				self.dead = True
@@ -80,8 +110,22 @@ class Enemy(pygame.sprite.Sprite):
 		else: 
 			self.grounded = False
 
+		#x
+		if not flag:
+			collisionObj = self.world.checkCollision(self, [newPos[0], self.worldPos[1]])
+			if collisionObj and not self.grounded:
+				if collisionObj.death == 1:
+					self.dead = True
+				elif newPos[0] > self.worldPos[0]:
+					newPos[0] -= 10
+				elif newPos[0] < self.worldPos[0]:
+					newPos[0] += 10
 
-
+		#if collides with another enemy reverse direction
+		if not flag:
+			collisionObj = self.world.level.checkEnemyCollision(self, newPos)
+			if collisionObj:
+				self.direction[0] = -self.direction[0]
 		return newPos
 
 
