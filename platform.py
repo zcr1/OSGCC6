@@ -15,7 +15,7 @@ class Platform(pygame.sprite.Sprite):
 		filepath = "/osgcc/images/newplatform" + number + ".png"
 		#print filepath
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
-		print imgPath
+
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
@@ -25,6 +25,9 @@ class Platform(pygame.sprite.Sprite):
 		self.moveX = False
 		self.moveY = False
 		self.direction = [0,0]
+		self.active = False
+		self.acceleration = 1
+		self.type = move
 		if move == 1:
 			self.moveX = True
 			self.direction = [1,0]
@@ -35,10 +38,20 @@ class Platform(pygame.sprite.Sprite):
 			self.moveX = True
 			self.moveY = True
 			self.direction = [1,1]
+		elif move == 4: #falling
+			self.moveY = True
+			self.direction = [0,0]
+			self.maxDisplacement = 4000
 
 	def Update(self):
 		pass
 
+	def isFall(self):
+		return self.type == 4
+
+	def Active(self):
+		self.direction = [0,1]
+		self.acceleration = 1
 
 	def updatePos(self):
 		delta = self.moveInc
@@ -47,10 +60,10 @@ class Platform(pygame.sprite.Sprite):
 			if self.currDisplacement > self.maxDisplacement:
 				self.currDisplacement = self.maxDisplacement
 				delta = self.currDisplacement - self.maxDisplacement
-			self.worldPos[1] += delta * self.direction[1]
+			self.worldPos[1] += delta * self.direction[1] * self.acceleration
 			self.worldPos[0] += delta * self.direction[0]
 		elif self.currDisplacement == self.maxDisplacement:
-			self.direction[1] = - self.direction[1]
+			self.direction[1] = - self.direction[1] * self.acceleration
 			self.direction[0] = - self.direction[0]
 			self.currDisplacement = 0
 			

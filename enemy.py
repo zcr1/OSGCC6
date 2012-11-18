@@ -77,7 +77,7 @@ class Enemy(pygame.sprite.Sprite):
 
 	def updatePos(self):
 
-		if self.jumper: #jump every x seconds
+		if self.jumper or self.jumpVel != 0: #jump every x seconds
 			self.deltaJump += self.clock.tick() / 1000.0
 			if self.deltaJump >= self.jumpDelay:
 				self.jumpVel = self.jumpSpeed
@@ -141,11 +141,52 @@ class Enemy(pygame.sprite.Sprite):
 				elif newPos[0] < self.worldPos[0]:
 					newPos[0] += 10
 
+		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
+		if collisionObj:
+			if collisionObj.isFall():
+				collisionObj.Active()
+			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
+				self.jump = False
+				if collisionObj.direction[1] == 1:
+					self.jumpVel = -3 * collisionObj.acceleration
+				else:
+					self.jumpVel = 3
+				self.grounded = True
+				self.jumpCount = 0
+			elif newPos[1] > self.worldPos[1]: #platform moving left-right
+				if collisionObj.death == 1:
+					self.dead = True
+				elif newPos[1] > self.worldPos[1]:
+					self.jump = False
+					self.jumpVel = 0
+					self.grounded = True
+					self.jumpCount = 0
+					newPos[1] -= 1
+					#newPos[1] = copy.deepcopy(collisionObj.rect.top)
+				elif newPos[1] < self.worldPos[1] and not self.grounded:
+					newPos[1] += 10
+					self.jumpVel = 0			
+			elif newPos[1] < self.worldPos[1] and collisionObj.moveY:
+				self.jump = False
+				#self.jumpVel = 0
+				self.grounded = True
+				self.jumpCount = 0
+			elif newPos[1] < self.worldPos[1]: #platform moving left-right
+				newPos[1] += 10
+				self.jumpVel = 0			
+		else:
+			self.onPlatform = False
+
+
+
+
 		#if collides with another enemy reverse direction
 		if not flag:
 			collisionObj = self.world.level.checkEnemyCollision(self, newPos)
 			if collisionObj:
 				self.direction[0] = -self.direction[0]
+
+
 		return newPos
 
 

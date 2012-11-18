@@ -181,10 +181,12 @@ class Player(pygame.sprite.Sprite):
 
 		collisionObj = self.world.level.checkCollisionMoving(self, [self.worldPos[0],newPos[1]])		
 		if collisionObj:
+			if collisionObj.isFall():
+				collisionObj.Active()
 			if newPos[1] > self.worldPos[1] and collisionObj.moveY:
 				self.jump = False
 				if collisionObj.direction[1] == 1:
-					self.jumpVel = -3
+					self.jumpVel = -3 * collisionObj.acceleration
 				else:
 					self.jumpVel = 3
 				self.grounded = True
@@ -200,7 +202,6 @@ class Player(pygame.sprite.Sprite):
 					newPos[1] -= 1
 					#newPos[1] = copy.deepcopy(collisionObj.rect.top)
 				elif newPos[1] < self.worldPos[1] and not self.grounded:
-					print "a"
 					newPos[1] += 10
 					self.jumpVel = 0			
 			elif newPos[1] < self.worldPos[1] and collisionObj.moveY:
@@ -209,7 +210,6 @@ class Player(pygame.sprite.Sprite):
 				self.grounded = True
 				self.jumpCount = 0
 			elif newPos[1] < self.worldPos[1]: #platform moving left-right
-				print "b"
 				newPos[1] += 10
 				self.jumpVel = 0			
 		else:
