@@ -31,6 +31,7 @@ class Player(pygame.sprite.Sprite):
 		self.world = world
 		self.dead = False
 		self.grounded = False
+		self.jump = False
 		self.strips = [SpriteStripAnim('images/chickenidle.png', (0,0,100,100), 4, (16, 16, 16), True, 5),
 			SpriteStripAnim('images/chickenrunL.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
  			SpriteStripAnim('images/chickenrun2.png', (0,0,100,100), 6, (16, 16, 16), True, 5),
@@ -52,12 +53,13 @@ class Player(pygame.sprite.Sprite):
 		newDir = [0,0]
 
 		if keys[pygame.K_w]:
-			if not self.jump:
-				self.jump = True
+			#if not self.jump:
+			self.jump = True
 			self.jumpVel = self.jumpSpeed
 			self.state = self.enumState.JUMP
 			newDir[1] = -1
 			self.updateState(self.enumState.JUMP)
+
 		elif keys[pygame.K_s]:
 			pass
 			#newDir[1] = 1
@@ -111,11 +113,12 @@ class Player(pygame.sprite.Sprite):
 				self.jump = False
 				self.jumpVel = 0
 				self.grounded = True
-				#newPos[1] = copy.deepcopy(collisionObj.rect.top) + 30
+				#newPos[1] = copy.deepcopy(collisionObj.rect.top)
 		else: 
 			self.grounded = False
 
 		self.worldPos = newPos
+		self.updateSpriteSheet()
 		
 	def Fire(self):
 		secs = self.world.clock.tick() / 1000.0
