@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
 		#http://stackoverflow.com/questions/36932/whats-the-best-way-to-implement-an-enum-in-python
 		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
 		self.state = self.enumState.STAND
+		self.HP = 10
 
 	#do updates
 	def Update(self, keys):
