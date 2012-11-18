@@ -26,7 +26,7 @@ class Enemy(pygame.sprite.Sprite):
 		self.direction = [1,0]
 		self.jumpVel = 0
 		self.horizVel = 0
-		self.stateChange = 0
+		self.stateChanged = 0
 		self.clock = clock
 		self.grounded = False
 		self.type = type
@@ -45,6 +45,7 @@ class Enemy(pygame.sprite.Sprite):
 			self.updateState(self.enumState.ROLLLEFT)
 		if type == 2:
 			self.shooter = True
+			self.updateState(self.enumState.JUMPER)
 		else:
 			self.shooter = False
 		if type == 1:
@@ -53,14 +54,13 @@ class Enemy(pygame.sprite.Sprite):
 		else:
 			self.jumper = False
 
+		self.updateSpriteSheet()
 		self.jump = False
 		self.deltaJump = 0
 		self.aggro = False
 
 		self.world = world
 		#http://stackoverflow.com/questions/36932/whats-the-best-way-to-implement-an-enum-in-python
-		self.enumState = self.enum(STAND=0, RUNLEFT=1, RUNRIGHT=2, JUMP=3)
-		self.state = self.enumState.STAND
 
 	#do updates
 	def Update(self):
@@ -109,6 +109,7 @@ class Enemy(pygame.sprite.Sprite):
 		if not self.jumper and self.grounded:
 			self.simulateAhead()
 
+		self.updateSpriteSheet()
 
 	def simulateAhead(self):
 		
@@ -119,6 +120,7 @@ class Enemy(pygame.sprite.Sprite):
 		#if newPos[1] != self.worldPos[1]:
 		if not self.grounded:
 			self.direction[0] = -self.direction[0]	
+			self.updateState(not self.state)
 
 	def updateState(self, state):
 		if(self.state != state):
