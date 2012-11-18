@@ -15,6 +15,7 @@ class Platform(pygame.sprite.Sprite):
 		filepath = "/osgcc/images/newplatform" + number + ".png"
 		#print filepath
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
+		print imgPath
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
