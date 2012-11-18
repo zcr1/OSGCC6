@@ -13,12 +13,12 @@ from sprite_strip_anim import SpriteStripAnim
 class Player(pygame.sprite.Sprite):
 
 
-	#speedMax = 10
-	#speedInc = 2
-	maxJumps = 200
-	#maxJumps = 20
-	speedMax = 20
-	speedInc = 7
+	speedMax = 10
+	speedInc = 2
+	#maxJumps = 200
+	maxJumps = 20
+	#speedMax = 20
+	#speedInc = 7
 	jumpSpeed = 12
 	friction = .9
 	shotDelay = .4
