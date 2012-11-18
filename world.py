@@ -39,11 +39,29 @@ class World():
 
 
 	def gameWon(self):
-		background = pygame.image.load("images/winscreen.png")
-		backgroundRect = background.get_rect()
-		self.screen.blit(background, backgroundRect)
-		pygame.display.update()
-		pygame.time.delay(8000)
+		count = 0
+		while count < 20:
+			background = pygame.image.load("images/winscreen1.png")
+			backgroundRect = background.get_rect()
+			self.screen.blit(background, backgroundRect)
+			pygame.display.update()
+			pygame.time.delay(300)
+			background = pygame.image.load("images/winscreen2.png")
+			backgroundRect = background.get_rect()
+			self.screen.blit(background, backgroundRect)
+			pygame.display.update()
+			pygame.time.delay(300)
+			background = pygame.image.load("images/winscreen3.png")
+			backgroundRect = background.get_rect()
+			self.screen.blit(background, backgroundRect)
+			pygame.display.update()
+			pygame.time.delay(300)
+			background = pygame.image.load("images/winscreen4.png")
+			backgroundRect = background.get_rect()
+			self.screen.blit(background, backgroundRect)
+			pygame.display.update()
+			pygame.time.delay(300)
+		
 
 	def gameOver(self):
 		while self.gameOverCount < 100:
