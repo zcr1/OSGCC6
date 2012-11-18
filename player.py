@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 			if self.jumpDuration > self.jumpGap:
 				self.jumpDuration = 0
 				self.jumpCount += 1
-				if self.jumpCount < 3:
+				if self.jumpCount < 2:
 					self.jump = True
 					self.jumpVel = self.jumpSpeed
 					newDir[1] = -1
@@ -227,7 +227,7 @@ class Player(pygame.sprite.Sprite):
 				self.updateState(self.enumState.SHOOTR)
 			self.shootstatetimer = self.shotDisplayDelay
 			self.lastShot = 0
-			return Bean(self.rect.center, self.worldPos, self.direction, self.world, False)
+			return Bean([self.rect.center[0], self.rect.center[1]-25], [self.worldPos[0], self.worldPos[1]-25], self.direction, self.world, False)
 		else:
 			self.lastShot += secs
 			return None

@@ -22,9 +22,8 @@ class Level():
 
 		for i in range (1, len(allLines)):
 			words = allLines[i].split(" ")
-			x = (int)(words[0])
-			y = (int)(words[1])
-			plat = Platform([x, y], words[2], words[3], words[4], words[5], (int)(words[6]))
+
+			plat = Platform([(int)(words[0]),(int)(words[1])],words[2], words[3], (int)(words[4]))
 			if plat.moveX or plat.moveY:
 				self.movePlatforms.add(plat)
 			else:

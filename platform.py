@@ -10,7 +10,7 @@ class Platform(pygame.sprite.Sprite):
 	maxDisplacement = 800
 	moveInc = 3
 
-	def __init__(self, pos , height, width, death, number, move):
+	def __init__(self, pos, death, number, move):
 		pygame.sprite.Sprite.__init__(self)
 		filepath = "/osgcc/images/newplatform" + number + ".png"
 		#print filepath
@@ -20,8 +20,6 @@ class Platform(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
 		self.worldPos = pos
-		self.height = height
-		self.width = width
 		self.death = (int)(death)
 		self.currDisplacement = 0
 		self.moveX = False
