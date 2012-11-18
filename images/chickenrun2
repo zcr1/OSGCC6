@@ -88,13 +88,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>chickenrun.png</string>
+            <string>chickenrun2.png</string>
             <key>size</key>
             <string>{1024,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:63a594b19a8960f763693f4be4678020$</string>
+            <string>$TexturePacker:SmartUpdate:f54be882b812d7b5383e841cc8bde6ec$</string>
             <key>textureFileName</key>
-            <string>chickenrun.png</string>
+            <string>chickenrun2.png</string>
         </dict>
     </dict>
 </plist>

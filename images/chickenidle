@@ -4,46 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>chicken-run01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{0,0},{100,100}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{100,100}}</string>
-                <key>sourceSize</key>
-                <string>{100,100}</string>
-            </dict>
-            <key>chicken-run02.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{100,0},{100,100}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{100,100}}</string>
-                <key>sourceSize</key>
-                <string>{100,100}</string>
-            </dict>
-            <key>chicken-run03.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{200,0},{100,100}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{100,100}}</string>
-                <key>sourceSize</key>
-                <string>{100,100}</string>
-            </dict>
-            <key>chicken-run04.png</key>
+            <key>chickenidle01.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{300,0},{100,100}}</string>
@@ -56,10 +17,10 @@
                 <key>sourceSize</key>
                 <string>{100,100}</string>
             </dict>
-            <key>chicken-run05.png</key>
+            <key>chickenidle02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{400,0},{100,100}}</string>
+                <string>{{200,0},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -69,10 +30,23 @@
                 <key>sourceSize</key>
                 <string>{100,100}</string>
             </dict>
-            <key>chicken-run06.png</key>
+            <key>chickenidle03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{500,0},{100,100}}</string>
+                <string>{{100,0},{100,100}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,100}}</string>
+                <key>sourceSize</key>
+                <string>{100,100}</string>
+            </dict>
+            <key>chickenidle04.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{0,0},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -88,13 +62,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>chickenrun.png</string>
+            <string>chickenidle.png</string>
             <key>size</key>
-            <string>{1024,128}</string>
+            <string>{512,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:63a594b19a8960f763693f4be4678020$</string>
+            <string>$TexturePacker:SmartUpdate:a84b23af45ec2bb0f77f4daa762efd71$</string>
             <key>textureFileName</key>
-            <string>chickenrun.png</string>
+            <string>chickenidle.png</string>
         </dict>
     </dict>
 </plist>
