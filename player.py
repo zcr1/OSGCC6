@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 	speedInc = 2
 	jumpSpeed = 10
 	friction = .9
-	shotDelay = .1
+	shotDelay = .2
 	maxFall = 30
 	invulnEnemyDuration = 1.0
 

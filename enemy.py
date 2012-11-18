@@ -79,7 +79,7 @@ class Enemy(pygame.sprite.Sprite):
 
 	def simulateAhead(self):
 		
-		deltaX = self.direction[0] * self.speedInc * 3
+		deltaX = self.direction[0] * self.speedInc * 5
 		newPos = [self.worldPos[0] + deltaX, self.worldPos[1] - self.jumpVel] 
 		flag = True
 		newPos = self.getCollisions(newPos, flag)

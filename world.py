@@ -14,6 +14,8 @@ class World():
 		bgPath2 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/background2.png"
 		self.bg1 = pygame.image.load(bgPath1).convert()
 
+		self.playerFlip = True
+
 	#gets called by main game loop to do everything
 	def Update(self):
 		self.getEvents()
@@ -42,7 +44,15 @@ class World():
 		#self.screen.fill(pygame.Color(255,255,255))
 		self.screen.blit(self.bg1,(0,0))
 		self.level.Draw()
-		self.players.draw(self.screen)
+
+		#if player takes damage have him flickr beautifully
+		if self.player.invulnDuration > 0:
+			self.playerFlip = not self.playerFlip
+		else:
+			self.playerFlip = True
+
+		if self.playerFlip:
+			self.players.draw(self.screen)
 		self.drawGUI()
 
 
