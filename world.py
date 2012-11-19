@@ -40,7 +40,8 @@ class World():
 
 	def gameWon(self):
 		count = 0
-		while count < 20:
+		while count < 4:
+			print count
 			background = pygame.image.load("images/winscreen1.png")
 			backgroundRect = background.get_rect()
 			self.screen.blit(background, backgroundRect)

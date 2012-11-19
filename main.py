@@ -44,7 +44,7 @@ def menuScreen():
 	surface = pygame.display.set_mode((1600,900)) #0,6671875 and 0,(6) of HDd resoultiondd
 	surface.blit(background, backgroundRect)
 	f = pygame.font.Font(None, 128)
-	surf = f.render("SUPER ROTISSERIE DX.", 1, (255,255,255), (0,0,255))
+	surf = f.render("SUPER ROTISSERIE DX.", 1, (255,255,255))
 	surface.blit(surf, backgroundRect)
 	menu = Menu()#necessary
 	menu.set_colors((255,255,255), (0,0,255), (0,0,0))#optional
@@ -54,8 +54,7 @@ def menuScreen():
         #menu.move_menu(0, 0)#optional
  	menu.draw()#necessary
 	pygame.key.set_repeat(199,69)#(delay,interval)
-	pygame.display.update()
-        #surface.blit(background, backgroundRect)
+	pygame.display.update() #surface.blit(background, backgroundRect)
 
  	while 1:
  		for event in pygame.event.get():

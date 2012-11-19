@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 	speedMax = 10
 	speedInc = 2
 	#maxJumps = 200
-	maxJumps = 20
+	maxJumps = 2
 	#speedMax = 20
 	#speedInc = 7
 	jumpSpeed = 12
@@ -135,7 +135,10 @@ class Player(pygame.sprite.Sprite):
 		if keys[pygame.K_SPACE]:
 			bean = self.Fire()
 			if bean:
-				self.world.objects.add(bean)	
+				self.world.objects.add(bean)
+
+		if keys[pygame.K_p]:
+			self.win = True	
 
 		self.direction = copy.deepcopy(newDir)
 
