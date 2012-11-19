@@ -112,7 +112,7 @@ class World():
 
 
 	def drawGUI(self):
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/bean.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/images/bean.png"
 		img = pygame.image.load(imgPath)
 		for i in range(self.player.hp):
 			self.screen.blit(img,(40 * (i + 1), 50))			

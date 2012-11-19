@@ -6,8 +6,8 @@ import math
 
 class Background():
 	def __init__(self, img1, img2):
-		filepath1 = "/osgcc/images/" + img1
-		filepath2 = "/osgcc/images/" + img2
+		filepath1 = "/OSGCC6/images/" + img1
+		filepath2 = "/OSGCC6/images/" + img2
 		#print filepath
 		imgPath1 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath1
 		imgPath2 = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath2

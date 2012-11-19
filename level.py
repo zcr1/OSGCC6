@@ -13,7 +13,7 @@ class Level():
 
 	def __init__(self, world):
 		self.world = world
-		platformpath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/datafiles/level1.dat"
+		platformpath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/datafiles/level1.dat"
 		f = open(platformpath)
 
 		allLines = f.readlines()
@@ -34,7 +34,7 @@ class Level():
 
 
 		# Add enemies to level
-		enemy_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/datafiles/enemy.dat"
+		enemy_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/datafiles/enemy.dat"
 		f = open(enemy_dat_path)
 
 		allLines = f.readlines()
@@ -51,7 +51,7 @@ class Level():
 			self.enemies.add(enem)	
 
 		# Add items to level
-		item_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/datafiles/item.dat"
+		item_dat_path = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/datafiles/item.dat"
 		f = open(item_dat_path)
 
 		allLines = f.readlines()

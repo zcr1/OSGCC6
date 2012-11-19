@@ -13,7 +13,7 @@ class Platform(pygame.sprite.Sprite):
 
 	def __init__(self, pos, death, number, move):
 		pygame.sprite.Sprite.__init__(self)
-		filepath = "/osgcc/images/newplatform" + number + ".png"
+		filepath = "/OSGCC6/images/newplatform" + number + ".png"
 		#print filepath
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
 
@@ -52,7 +52,7 @@ class Platform(pygame.sprite.Sprite):
 		pass
 
 	def switchImage(self, num):
-		filepath = "/osgcc/images/newplatform" + num + ".png"
+		filepath = "/OSGCC6/images/newplatform" + num + ".png"
 		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + filepath
 		self.image = pygame.image.load(imgPath)
 		self.sprung = not self.sprung

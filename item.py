@@ -9,7 +9,7 @@ class Item(pygame.sprite.Sprite):
 
 	def __init__(self, pos , height, width, type):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/canOfBeans.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/images/canOfBeans.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = pos

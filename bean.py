@@ -12,7 +12,7 @@ class Bean(pygame.sprite.Sprite):
 
 	def __init__(self, localPos, worldPos, direction, world, enemy):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/bean.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/images/bean.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = copy.deepcopy(localPos)

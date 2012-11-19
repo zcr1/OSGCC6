@@ -19,7 +19,7 @@ class Enemy(pygame.sprite.Sprite):
 	#enemey type, 0=walk, 1=jump, 2=shoot 3= 4=
 	def __init__(self, pos, world, clock, type):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/enemy1.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/images/enemy1.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = copy.deepcopy(pos)

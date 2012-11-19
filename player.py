@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 	speedMax = 10
 	speedInc = 2
 	#maxJumps = 200
-	maxJumps = 20
+	maxJumps = 2
 	#speedMax = 20
 	#speedInc = 7
 	jumpSpeed = 12
@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
 
 	def __init__(self, pos, world):
 		pygame.sprite.Sprite.__init__(self)
-		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/osgcc/images/chicken.png"
+		imgPath = os.path.dirname(os.path.dirname( os.path.realpath( __file__ ) ) ) + "/OSGCC6/images/chicken.png"
 		self.image = pygame.image.load(imgPath)
 		self.rect = self.image.get_rect()
 		self.rect.center = pos
