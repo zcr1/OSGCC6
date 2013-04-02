@@ -1,4 +1,4 @@
-platforms:  (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1=horiz, 3=both, 4=falling])
+platforms: (x, y, height, width, death, platform graphic, moving?[0=no,2=vert,1=horiz, 3=both, 4=falling])
 800 525 0 01 0
 1200 525 0 02 0 
 1600 525 0 01 0
